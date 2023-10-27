@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.finapp.app.models.entities.User;
-import com.finapp.app.models.repositories.UserRepository;
+import com.finapp.app.models.repositories.UsersRepository;
 import com.finapp.app.services.JwtService;
 
 import jakarta.servlet.FilterChain;
@@ -26,7 +26,7 @@ public class SecurityFilter extends OncePerRequestFilter {
 	private JwtService jwtService;
 	
 	@Autowired
-	private UserRepository userRepository;
+	private UsersRepository userRepository;
 		
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)

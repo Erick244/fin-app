@@ -7,13 +7,13 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.finapp.app.models.entities.User;
-import com.finapp.app.models.repositories.UserRepository;
+import com.finapp.app.models.repositories.UsersRepository;
 
 @Service
 public class UsersService implements UserDetailsService {
 
 	@Autowired
-	private UserRepository userRepository;
+	private UsersRepository userRepository;
 	
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -25,5 +25,4 @@ public class UsersService implements UserDetailsService {
 		
 		return user.userDetails();
 	}
-
 }
