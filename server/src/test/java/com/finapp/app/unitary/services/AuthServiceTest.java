@@ -12,12 +12,17 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.finapp.app.models.dto.auth.SignInDto;
 import com.finapp.app.models.dto.auth.SignUpDto;
 import com.finapp.app.models.entities.User;
 import com.finapp.app.models.repositories.UsersRepository;
 import com.finapp.app.services.AuthService;
+import com.finapp.app.services.JwtService;
 import com.finapp.app.services.ValidationsService;
 
 import jakarta.validation.ConstraintViolationException;
@@ -36,6 +41,12 @@ public class AuthServiceTest {
 
 	@MockBean
 	private ValidationsService validationsService;
+
+	@MockBean
+	private JwtService jwtService;
+
+	@MockBean
+	private AuthenticationManager authenticationManager;
 
 	@Test
 	public void signUp_Valid() {
@@ -145,5 +156,28 @@ public class AuthServiceTest {
 
 		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
 		assertEquals(errorMessage, response.getBody());
+	}
+
+	@Test
+	public void signIn_Valid() {
+		String email = "email@dev.com";
+		String password = "12345678";
+		SignInDto signInDto = new SignInDto(email, password);
+
+		User user = new User();
+
+		Authentication authToken = new UsernamePasswordAuthenticationToken(email, password);
+		when(this.authenticationManager.authenticate(authToken))
+				.thenReturn(authToken);
+		when(this.usersRepository.findByEmail(email))
+				.thenReturn(new User());
+		when(this.jwtService.generateToken(user.userDetails()))
+				.thenReturn("anyToken");
+
+		// TODO: Tente injetar o authentication manager para resolver isso
+
+		ResponseEntity<?> response = this.authService.signIn(signInDto);
+
+		assertEquals(HttpStatus.OK, response.getStatusCode());
 	}
 }

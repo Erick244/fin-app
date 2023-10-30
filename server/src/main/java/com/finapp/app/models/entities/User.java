@@ -43,6 +43,11 @@ public class User {
 		// TODO Auto-generated constructor stub
 	}
 
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", name=" + name + ", email=" + email + ", password=" + null + "]";
+	}
+
 	public String getName() {
 		return name;
 	}
