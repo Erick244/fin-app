@@ -1,6 +1,7 @@
 package com.finapp.app.unitary.services;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
@@ -13,10 +14,13 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.finapp.app.models.dto.auth.LoginResponseDto;
 import com.finapp.app.models.dto.auth.SignInDto;
 import com.finapp.app.models.dto.auth.SignUpDto;
 import com.finapp.app.models.entities.User;
@@ -162,22 +166,43 @@ public class AuthServiceTest {
 	public void signIn_Valid() {
 		String email = "email@dev.com";
 		String password = "12345678";
+		String name = "name";
+		User mockUser = new User(name, email, password);
+
 		SignInDto signInDto = new SignInDto(email, password);
+		Authentication mockAuth = new UsernamePasswordAuthenticationToken(mockUser.userDetails(), null);
+		String mockToken = "mockJwtToken";
 
-		User user = new User();
-
-		Authentication authToken = new UsernamePasswordAuthenticationToken(email, password);
-		when(this.authenticationManager.authenticate(authToken))
-				.thenReturn(authToken);
-		when(this.usersRepository.findByEmail(email))
-				.thenReturn(new User());
-		when(this.jwtService.generateToken(user.userDetails()))
-				.thenReturn("anyToken");
-
-		// TODO: Tente injetar o authentication manager para resolver isso
+		when(this.authenticationManager.authenticate(any(Authentication.class)))
+				.thenReturn(mockAuth);
+		when(this.usersRepository.findByEmail(anyString()))
+				.thenReturn(mockUser);
+		when(this.jwtService.generateToken(any(UserDetails.class)))
+				.thenReturn(mockToken);
 
 		ResponseEntity<?> response = this.authService.signIn(signInDto);
 
 		assertEquals(HttpStatus.OK, response.getStatusCode());
+		assertTrue(response.getBody() instanceof LoginResponseDto);
+
+		LoginResponseDto loginResponseDto = (LoginResponseDto) response.getBody();
+		assertEquals(mockUser, loginResponseDto.user());
+		assertEquals(mockToken, loginResponseDto.jwtToken());
+	}
+
+	@Test
+	public void signIn_ThrowsBadCredentials() {
+		String email = "bademail@dev.com";
+		String password = "12345678321321837128362186321";
+		SignInDto signInDto = new SignInDto(email, password);
+		String badCredentialMessage = "Non-existent user or invalid password";
+
+		when(this.authenticationManager.authenticate(any(Authentication.class)))
+				.thenThrow(BadCredentialsException.class);
+
+		ResponseEntity<?> response = this.authService.signIn(signInDto);
+
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+		assertEquals(badCredentialMessage, response.getBody());
 	}
 }
