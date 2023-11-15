@@ -13,12 +13,12 @@ export function NavItem({ children, href, ...rest }: NavItemProps) {
             href={href}
             {...rest}
             className={cn(
-                "relative overflow-hidden p-2 border dark:border-white/10 border-black/10 rounded group",
+                "relative overflow-hidden py-2 px-4 border dark:border-white/10 border-black/10 rounded group",
                 rest.className
             )}
         >
-            <div className="-z-10 top-0 left-0 translate-y-10 group-hover:translate-y-0 dark:bg-white bg-black h-full w-full absolute"></div>
-            <span className="z-10 dark:group-hover:text-black group-hover:text-white">
+            <div className="z-0 top-0 left-0 -translate-x-full group-hover:translate-x-0 sm:translate-y-10 sm:translate-x-0 sm:group-hover:translate-y-0 bg-foreground h-full w-full absolute transition-all"></div>
+            <span className="relative z-10 dark:group-hover:text-black group-hover:text-white">
                 {children}
             </span>
         </Link>

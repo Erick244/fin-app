@@ -2,7 +2,7 @@ import { Inter as FontSans } from "next/font/google";
 import "./globals.css";
 
 import { HomeLayout } from "@/components/layouts/HomeLayout";
-import { ThemeProvider } from "@/components/providers/ThemeProvider";
+import { ClientProviders } from "@/components/providers";
 import { cn } from "../lib/utils";
 
 export const fontSans = FontSans({
@@ -24,14 +24,9 @@ export default function RootLayout({ children }: RootLayoutProps) {
                     fontSans.variable
                 )}
             >
-                <ThemeProvider
-                    attribute="class"
-                    defaultTheme="system"
-                    enableSystem
-                    disableTransitionOnChange
-                >
+                <ClientProviders>
                     <HomeLayout>{children}</HomeLayout>
-                </ThemeProvider>
+                </ClientProviders>
             </body>
         </html>
     );

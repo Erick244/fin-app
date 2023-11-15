@@ -7,7 +7,7 @@ export function FinAppLogo(props: HTMLAttributes<HTMLDivElement>) {
             {...props}
             className={cn("flex gap-2 select-none", props.className)}
         >
-            <span className="dark:bg-white text-4xl bg-black dark:text-black text-white p-1 rounded">
+            <span className="bg-foreground text-4xl dark:text-black text-white p-1 rounded">
                 Fin
             </span>
             <span className="font-light self-end text-2xl">App</span>

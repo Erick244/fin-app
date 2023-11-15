@@ -1,44 +1,43 @@
-"use client";
-
 import { cn } from "@/lib/utils";
-import { HTMLAttributes, useState } from "react";
+import { HTMLAttributes } from "react";
 
-export function MenuButton(props: HTMLAttributes<HTMLButtonElement>) {
-    const [isClosed, setIsClosed] = useState<boolean>(true);
+interface MenuButtonProps extends HTMLAttributes<HTMLButtonElement> {
+    menuIsOpen: boolean;
+}
 
-    function onClick() {
-        setIsClosed(!isClosed);
-    }
-
+export function MenuButton({ menuIsOpen, ...rest }: MenuButtonProps) {
     return (
         <button
-            {...props}
+            {...rest}
             className={cn(
-                "px-1 py-2  flex flex-col gap-1 transition delay-300",
-                props.className
+                "px-1 py-2  flex flex-col gap-1 transition-all",
+                rest.className
             )}
-            onClick={onClick}
         >
             <div
                 className={cn(
-                    "dark:bg-white bg-black h-0.5 w-6 delay-200",
-                    isClosed
-                        ? "-rotate-0 translate-y-0 -translate-x-0"
-                        : "-rotate-45 translate-y-1 -translate-x-0.5"
+                    "dark:bg-white bg-black h-0.5 w-6 transition-all",
+                    menuIsOpen
+                        ? "-rotate-45 translate-y-1 -translate-x-0.5"
+                        : "-rotate-0 translate-y-0 -translate-x-0"
                 )}
             ></div>
 
             <div
                 className={cn(
-                    "dark:bg-white bg-black h-0.5 w-6",
-                    isClosed
-                        ? "-rotate-0 translate-y-0 -translate-x-0"
-                        : "rotate-45 -translate-y-0.5 -translate-x-0.5"
+                    "dark:bg-white bg-black h-0.5 w-6 transition-all delay-100",
+                    menuIsOpen
+                        ? "rotate-45 -translate-y-0.5 -translate-x-0.5"
+                        : "-rotate-0 translate-y-0 -translate-x-0"
                 )}
             ></div>
-            {isClosed && (
-                <div className="dark:bg-white bg-black h-0.5 w-6 delay-200"></div>
-            )}
+
+            <div
+                className={cn(
+                    "dark:bg-white bg-black h-0.5",
+                    menuIsOpen ? "w-0" : "w-6"
+                )}
+            ></div>
         </button>
     );
 }
