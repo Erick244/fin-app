@@ -1,3 +1,9 @@
+import { Introduction } from "@/components/home/sections/Introduction";
+
 export default function Home() {
-    return <div>Hello World</div>;
+    return (
+        <div className="h-full w-full">
+            <Introduction />
+        </div>
+    );
 }

@@ -10,7 +10,7 @@ export function HeaderRoot({ children, ...rest }: HeaderRootProps) {
         <header
             {...rest}
             className={cn(
-                "px-4 py-3 bg-gradient-to-r dark:from-white/20 dark:via-white/10 dark:to-white/20 from-black/10 via-black/5 to-black/10  backdrop-filter backdrop-blur-sm shadow-lg border border-white/10",
+                "z-20 sticky top-0 px-4 py-3 bg-background/90 backdrop-filter backdrop-blur-sm shadow-lg border-b border-border",
                 rest.className
             )}
         >

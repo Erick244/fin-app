@@ -10,7 +10,7 @@ export function MenuRoot({ children, ...rest }: MenuRootProps) {
         <menu
             {...rest}
             className={cn(
-                "p-4 dark:bg-black/30 bg-white/30 shadow shadow-black/30 w-1/2 h-full",
+                "p-4 bg-background shadow shadow-black/30 w-1/2 h-full z-10",
                 rest.className
             )}
         >

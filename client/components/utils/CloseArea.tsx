@@ -10,7 +10,7 @@ export function CloseArea({ children, ...rest }: CloseAreaProps) {
         <div
             {...rest}
             className={cn(
-                "absolute h-full w-full dark:bg-white/10 backdrop-blur-sm bg-black/10",
+                "absolute h-full w-full dark:bg-white/10 backdrop-blur-sm bg-black/10 z-10 overflow-hidden",
                 rest.className
             )}
         >

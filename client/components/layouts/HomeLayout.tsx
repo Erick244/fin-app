@@ -13,14 +13,15 @@ interface HomeLayoutProps {
 
 export function HomeLayout({ children }: HomeLayoutProps) {
     return (
-        <div className="h-screen w-screen overflow-hidden">
+        <div className="h-screen w-screen scroll-smooth">
             <Header.Root className="flex justify-between items-center">
                 <FinAppLogo />
-                <Nav.Root className="hidden sm:flex sm:gap-10 md:gap-20">
+                <Nav.Root className="hidden sm:flex sm:gap-5 md:gap-10 lg:gap-20">
                     <NavItems />
                 </Nav.Root>
-                <GettingStartedButton className=" sm:visible hidden" />
+
                 <div className="flex items-center gap-5">
+                    <GettingStartedButton mobileMode />
                     <ModeToggle />
                     <ToggleMobileMenuButton />
                 </div>

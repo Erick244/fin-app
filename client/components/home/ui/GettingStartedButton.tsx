@@ -3,7 +3,14 @@ import { cn } from "@/lib/utils";
 import { BarChart4 } from "lucide-react";
 import { HTMLAttributes } from "react";
 
-export function GettingStartedButton(props: HTMLAttributes<HTMLButtonElement>) {
+interface GettingStartedButtonProps extends HTMLAttributes<HTMLButtonElement> {
+    mobileMode?: boolean;
+}
+
+export function GettingStartedButton({
+    mobileMode,
+    ...props
+}: GettingStartedButtonProps) {
     return (
         <Button
             {...props}
@@ -12,7 +19,10 @@ export function GettingStartedButton(props: HTMLAttributes<HTMLButtonElement>) {
                 props.className
             )}
         >
-            Getting Started <BarChart4 />
+            <span className={cn(mobileMode ? "hidden md:inline-block" : "")}>
+                Getting Started
+            </span>
+            <BarChart4 />
         </Button>
     );
 }

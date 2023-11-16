@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import { Menu } from "../../templates/menu";
 import { CloseArea } from "../../utils/CloseArea";
 import { NavItems } from "../nav/NavItems";
+import { GettingStartedButton } from "../ui/GettingStartedButton";
 
 export function MobileMenu() {
     const { isVisible: mobileMenuIsVisible, hiddenVisibility } =
@@ -26,7 +27,12 @@ export function MobileMenu() {
                     mobileMenuIsVisible ? "w-1/2" : "w-0 p-0"
                 )}
             >
-                {mobileMenuIsVisible && <NavItems />}
+                {mobileMenuIsVisible && (
+                    <>
+                        <NavItems />
+                        <GettingStartedButton className="py-6" />
+                    </>
+                )}
             </Menu.Root>
         </>
     );

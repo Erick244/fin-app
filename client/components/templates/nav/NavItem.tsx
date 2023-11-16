@@ -13,7 +13,7 @@ export function NavItem({ children, href, ...rest }: NavItemProps) {
             href={href}
             {...rest}
             className={cn(
-                "relative overflow-hidden py-2 px-4 border dark:border-white/10 border-black/10 rounded group",
+                "relative overflow-hidden py-2 px-4 sm:py-2 sm:px-2 md:py-2 md:px-4 border dark:border-white/10 border-black/10 rounded group",
                 rest.className
             )}
         >
