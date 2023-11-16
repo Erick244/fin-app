@@ -1,5 +1,8 @@
 package com.finapp.app.models.entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -10,6 +13,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -31,6 +35,9 @@ public class User {
 
 	@NotNull(message = UserValidationMessages.PASSWORD_NOT_NULL)
 	private String password;
+
+	@OneToMany(mappedBy = "user")
+	private List<Revenue> revenues = new ArrayList<>();
 
 	public User(String name, String email, String password) {
 		super();
@@ -75,6 +82,10 @@ public class User {
 
 	public int getId() {
 		return id;
+	}
+
+	public void setRevenues(List<Revenue> revenues) {
+		this.revenues = revenues;
 	}
 
 	public UserDetails userDetails() {
