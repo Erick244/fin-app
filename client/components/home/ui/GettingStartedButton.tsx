@@ -1,14 +1,18 @@
-import { Button } from "@/components/ui/button";
+import { Button, ButtonProps } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { BarChart4 } from "lucide-react";
 import { HTMLAttributes } from "react";
 
-interface GettingStartedButtonProps extends HTMLAttributes<HTMLButtonElement> {
+interface GettingStartedButtonProps
+    extends HTMLAttributes<HTMLButtonElement>,
+        ButtonProps {
     mobileMode?: boolean;
+    removeLabel?: boolean;
 }
 
 export function GettingStartedButton({
     mobileMode,
+    removeLabel,
     ...props
 }: GettingStartedButtonProps) {
     return (
@@ -19,9 +23,14 @@ export function GettingStartedButton({
                 props.className
             )}
         >
-            <span className={cn(mobileMode ? "hidden md:inline-block" : "")}>
-                Getting Started
-            </span>
+            {!removeLabel && (
+                <span
+                    className={cn(mobileMode ? "hidden md:inline-block" : "")}
+                >
+                    Getting Started
+                </span>
+            )}
+
             <BarChart4 />
         </Button>
     );
