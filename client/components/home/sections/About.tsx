@@ -28,7 +28,7 @@ export function About() {
     return (
         <div
             id="about"
-            className="p-5 flex justify-evenly items-center gap-10  flex-wrap"
+            className="bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] border-b-2 p-5 flex justify-evenly items-center gap-10  flex-wrap"
         >
             <Card
                 Icon={cards.card1.icon}

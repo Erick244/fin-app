@@ -13,7 +13,7 @@ interface HomeLayoutProps {
 
 export function HomeLayout({ children }: HomeLayoutProps) {
     return (
-        <div className="h-screen w-screen scroll-smooth">
+        <div className="h-screen w-screen scroll-smooth overflow-x-hidden">
             <Header.Root className="flex justify-between items-center">
                 <FinAppLogo />
                 <Nav.Root className="hidden sm:flex sm:gap-5 md:gap-10 lg:gap-20">
