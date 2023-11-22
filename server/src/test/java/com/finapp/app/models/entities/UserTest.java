@@ -1,11 +1,9 @@
-package com.finapp.app.unitary.models.entities;
+package com.finapp.app.models.entities;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.security.core.userdetails.UserDetails;
-
-import com.finapp.app.models.entities.User;
 
 public class UserTest {
 

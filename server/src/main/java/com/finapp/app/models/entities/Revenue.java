@@ -5,11 +5,13 @@ import java.util.Date;
 import com.finapp.app.validations.messages.RevenueValidationMessages;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.AssertFalse;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
@@ -25,28 +27,38 @@ public class Revenue {
 	private String description;
 
 	@NotNull(message = RevenueValidationMessages.VALUE_NOT_NULL)
-	@Size(min = 1, message = RevenueValidationMessages.VALUE_MIN)
-	private long value;
+	@Min(value = 1, message = RevenueValidationMessages.VALUE_MIN)
+	private Long value;
 
 	@NotNull(message = RevenueValidationMessages.IS_PAID_NOT_NULL)
-	private boolean isPaid;
+	private Boolean isPaid;
 
-	@NotNull(message = RevenueValidationMessages.TRANSACTION_DATE_REQUIRED)
 	private Date transactionDate;
 
 	@AssertFalse(message = RevenueValidationMessages.TRANSACTION_DATE_REQUIRED)
-	private boolean transactionDateValidation() {
-		return isPaid && transactionDate != null;
+	private boolean isPaidButNoTransactionDate() {
+		if (isPaid == null)
+			return false;
+
+		return isPaid && transactionDate == null;
 	}
 
-	@ManyToOne()
+	@AssertFalse(message = RevenueValidationMessages.TRANSACTION_DATE_NOT_REQUIRED)
+	private boolean isNotPaidButHaveTransactionDate() {
+		if (isPaid == null)
+			return false;
+
+		return !isPaid && transactionDate != null;
+	}
+
+	@ManyToOne(fetch = FetchType.EAGER)
 	private User user;
 
 	public Revenue() {
 
 	}
 
-	public Revenue(String description, long value, boolean isPaid, Date transactionDate, User user) {
+	public Revenue(String description, Long value, Boolean isPaid, Date transactionDate, User user) {
 		this.description = description;
 		this.value = value;
 		this.isPaid = isPaid;

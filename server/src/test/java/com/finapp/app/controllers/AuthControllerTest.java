@@ -1,4 +1,4 @@
-package com.finapp.app.integration.controllers;
+package com.finapp.app.controllers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.doReturn;

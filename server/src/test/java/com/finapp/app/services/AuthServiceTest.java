@@ -1,4 +1,4 @@
-package com.finapp.app.unitary.services;
+package com.finapp.app.services;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -25,9 +25,6 @@ import com.finapp.app.models.dto.auth.SignInDto;
 import com.finapp.app.models.dto.auth.SignUpDto;
 import com.finapp.app.models.entities.User;
 import com.finapp.app.models.repositories.UsersRepository;
-import com.finapp.app.services.AuthService;
-import com.finapp.app.services.JwtService;
-import com.finapp.app.services.ValidationsService;
 
 import jakarta.validation.ConstraintViolationException;
 

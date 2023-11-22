@@ -10,4 +10,7 @@ public class RevenueValidationMessages {
 
 	public static final String IS_PAID_NOT_NULL = "The paiding status must not be null";
 
+	public static final String TRANSACTION_DATE_REQUIRED = "The transaction date is required if the revenue is paid";
+	public static final String TRANSACTION_DATE_NOT_REQUIRED = "Only the date of the transaction is required when the revenue is paid";
+
 }
