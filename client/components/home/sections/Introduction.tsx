@@ -1,3 +1,4 @@
+import { TypographyP } from "@/components/ui/TypographyP";
 import { GettingStartedButton } from "../ui/GettingStartedButton";
 import { IntroductionChart } from "../ui/IntroductionChart";
 
@@ -13,12 +14,12 @@ export function Introduction() {
                     </span>
                     <span> HERE!</span>
                 </h1>
-                <p className="text-center sm:w-1/2 w-full">
+                <TypographyP className="text-center sm:w-1/2 w-full">
                     Lorem ipsum dolor sit amet consectetur, adipisicing elit.
                     Cumque ea nostrum sit dicta neque omnis nisi voluptatibus
                     fuga accusantium mollitia sed, at libero, vitae sapiente.
                     Veritatis aut doloribus similique molestias.
-                </p>
+                </TypographyP>
                 <GettingStartedButton
                     size={"lg"}
                     className="bg-background text-foreground hover:bg-secondary shadow shadow-black/30"

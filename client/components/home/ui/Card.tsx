@@ -1,3 +1,4 @@
+import { TypographyP } from "@/components/ui/TypographyP";
 import { LucideIcon } from "lucide-react";
 import { GettingStartedButton } from "./GettingStartedButton";
 
@@ -16,7 +17,7 @@ export function Card({ Icon, text, title }: CardProps) {
                 </div>
                 <div className="flex flex-col justify-between p-4 absolute inset-0 h-full w-full rounded-xl bg-background/70 [transform:rotateY(180deg)] [backface-visibility:hidden]">
                     <h1 className="text-2xl">{title}</h1>
-                    <p>{text}</p>
+                    <TypographyP>{text}</TypographyP>
                     <GettingStartedButton removeLabel />
                 </div>
             </div>

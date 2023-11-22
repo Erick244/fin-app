@@ -1,3 +1,4 @@
+import { TypographyP } from "@/components/ui/TypographyP";
 import Image from "next/image";
 
 export function Informations() {
@@ -9,7 +10,7 @@ export function Informations() {
             <div className="max-w-3xl">
                 <h1 className="text-4xl mb-5">Informations</h1>
                 <div className="border-2 border-border p-3 rounded-lg">
-                    <p className="bg-foreground rounded text-background p-2 leading-relaxed">
+                    <TypographyP className="bg-foreground rounded text-background p-2">
                         Lorem ipsum dolor sit amet consectetur adipisicing elit.
                         Non sequi doloremque possimus impedit incidunt? Libero
                         iusto tenetur nam architecto sapiente corporis,
@@ -19,9 +20,9 @@ export function Informations() {
                         incidunt? Libero iusto tenetur nam architecto sapiente
                         corporis, blanditiis aut dicta eius, ratione expedita
                         distinctio quo officia!
-                    </p>
+                    </TypographyP>
                     <br />
-                    <p className="p-2 leading-relaxed">
+                    <TypographyP className="p-2">
                         Lorem ipsum dolor, sit amet consectetur adipisicing
                         elit. Dolor commodi facilis fugiat animi autem nulla
                         error, quas vero eaque inventore totam molestiae, iure
@@ -38,7 +39,7 @@ export function Informations() {
                         elit. Dolor commodi facilis fugiat animi autem nulla
                         error, quas vero eaque inventore totam molestiae, iure
                         laudantium? Aspernatur tempore quo porro natus aut!
-                    </p>
+                    </TypographyP>
                 </div>
             </div>
             <div className="p-2 shadow-2xl shadow-foreground border-l-4 border-foreground rounded overflow-hidden">
