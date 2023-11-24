@@ -89,3 +89,29 @@
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
 }
+
+.slider-scroll::-webkit-scrollbar {
+    height: 10px;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    @apply bg-foreground;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    @apply bg-background;
+    border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    @apply bg-secondary;
+}

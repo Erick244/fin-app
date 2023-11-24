@@ -19,7 +19,7 @@ export function FeedBackCard({
         <div
             {...rest}
             className={cn(
-                "shrink-0 w-96 p-4 flex flex-col justify-center items-center gap-5 border-2 border-border rounded-lg bg-background text-foreground shadow shadow-black/30",
+                "shrink-0 sm:w-96 w-80 p-4 flex flex-col justify-center items-center gap-5 border-2 border-border rounded-lg bg-background text-foreground shadow shadow-black/30",
                 rest.className
             )}
         >
