@@ -5,10 +5,12 @@ import { useVisibilityAtom } from "@/hooks/useVisibilityAtom";
 import { cn } from "@/lib/utils";
 import { Menu } from "../../templates/menu";
 import { CloseArea } from "../../utils/CloseArea";
-import { NavItems } from "../nav/NavItems";
-import { GettingStartedButton } from "../ui/GettingStartedButton";
 
-export function MobileMenu() {
+interface MobileNavMenuProps {
+    children: React.ReactNode;
+}
+
+export function MobileMenu({ children }: MobileNavMenuProps) {
     const { isVisible: mobileMenuIsVisible, hiddenVisibility } =
         useVisibilityAtom(mobileMenuVisibilityAtom);
 
@@ -27,12 +29,7 @@ export function MobileMenu() {
                     mobileMenuIsVisible ? "w-1/2" : "w-0 p-0"
                 )}
             >
-                {mobileMenuIsVisible && (
-                    <>
-                        <NavItems />
-                        <GettingStartedButton className="py-6" />
-                    </>
-                )}
+                {mobileMenuIsVisible && children}
             </Menu.Root>
         </>
     );

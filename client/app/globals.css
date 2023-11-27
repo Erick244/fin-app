@@ -103,6 +103,7 @@
 /* Track */
 ::-webkit-scrollbar-track {
     @apply bg-foreground;
+    border-radius: 5px;
 }
 
 /* Handle */

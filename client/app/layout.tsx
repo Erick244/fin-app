@@ -1,8 +1,8 @@
 import { Inter as FontSans } from "next/font/google";
 import "./globals.css";
 
-import { HomeLayout } from "@/components/layouts/HomeLayout";
 import { ClientProviders } from "@/components/providers";
+import type { Metadata } from "next";
 import { cn } from "../lib/utils";
 
 export const fontSans = FontSans({
@@ -14,6 +14,15 @@ interface RootLayoutProps {
     children: React.ReactNode;
 }
 
+export const metadata: Metadata = {
+    title: {
+        template: "%s | FinApp",
+        default: "FinApp",
+    },
+    description:
+        "An elegant personal finance management website, with the latest technologies.",
+};
+
 export default function RootLayout({ children }: RootLayoutProps) {
     return (
         <html lang="en" suppressHydrationWarning>
@@ -24,9 +33,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
                     fontSans.variable
                 )}
             >
-                <ClientProviders>
-                    <HomeLayout>{children}</HomeLayout>
-                </ClientProviders>
+                <ClientProviders>{children}</ClientProviders>
             </body>
         </html>
     );

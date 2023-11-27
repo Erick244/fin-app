@@ -24,7 +24,10 @@ export function FeedBackCard({
             )}
         >
             <Avatar className="h-40 w-40">
-                <AvatarImage src={avatarImageUrl} />
+                <AvatarImage
+                    src={avatarImageUrl}
+                    alt="Image of a person who gave feedback"
+                />
                 <AvatarFallback>{avatarFallBack}</AvatarFallback>
             </Avatar>
             <h2 className="text-xl">{name}</h2>

@@ -4,11 +4,12 @@ import { FeedBacks } from "@/components/home/sections/FeedBacks";
 import { Informations } from "@/components/home/sections/Informations";
 import { Introduction } from "@/components/home/sections/Introduction";
 import { DiagonalSeparator } from "@/components/home/ui/DiagonalSeparator";
+import { HomeLayout } from "@/components/layouts/HomeLayout";
 import { Footer } from "@/components/ui/footer";
 
 export default function Home() {
     return (
-        <div className="h-full w-full">
+        <HomeLayout>
             <Introduction />
             <About />
             <Informations />
@@ -17,6 +18,6 @@ export default function Home() {
             <DiagonalSeparator className="border-b-background border-r-foreground" />
             <Contact />
             <Footer className="mt-16" />
-        </div>
+        </HomeLayout>
     );
 }

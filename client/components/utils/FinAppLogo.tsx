@@ -1,9 +1,11 @@
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 import { HTMLAttributes } from "react";
 
-export function FinAppLogo(props: HTMLAttributes<HTMLDivElement>) {
+export function FinAppLogo(props: HTMLAttributes<HTMLAnchorElement>) {
     return (
-        <div
+        <Link
+            href={"/"}
             {...props}
             className={cn("flex gap-2 select-none", props.className)}
         >
@@ -11,6 +13,6 @@ export function FinAppLogo(props: HTMLAttributes<HTMLDivElement>) {
                 Fin
             </span>
             <span className="font-light self-end text-2xl">App</span>
-        </div>
+        </Link>
     );
 }
