@@ -90,36 +90,36 @@ public class RevenuesServiceTest {
 	public void create_ViolationException_ValueNull() {
 		CreateRevenueDto createRevenueDto = new CreateRevenueDto("description", null, false, null);
 
-		performInViolationException(RevenueValidationMessages.VALUE_NOT_NULL);
+		performInViolationException(RevenueValidationMessages.AMOUNT_NOT_NULL);
 
 		ResponseEntity<?> response = this.revenuesService.create(createRevenueDto);
 
 		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-		assertEquals(RevenueValidationMessages.VALUE_NOT_NULL, response.getBody());
+		assertEquals(RevenueValidationMessages.AMOUNT_NOT_NULL, response.getBody());
 	}
 
 	@Test
 	public void create_ViolationException_ValueMin() {
 		CreateRevenueDto createRevenueDto = new CreateRevenueDto("description", 0L, false, null);
 
-		performInViolationException(RevenueValidationMessages.VALUE_MIN);
+		performInViolationException(RevenueValidationMessages.AMOUNT_MIN);
 
 		ResponseEntity<?> response = this.revenuesService.create(createRevenueDto);
 
 		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-		assertEquals(RevenueValidationMessages.VALUE_MIN, response.getBody());
+		assertEquals(RevenueValidationMessages.AMOUNT_MIN, response.getBody());
 	}
 
 	@Test
 	public void create_ViolationException_NegativeValue() {
 		CreateRevenueDto createRevenueDto = new CreateRevenueDto("description", -123L, false, null);
 
-		performInViolationException(RevenueValidationMessages.VALUE_MIN);
+		performInViolationException(RevenueValidationMessages.AMOUNT_MIN);
 
 		ResponseEntity<?> response = this.revenuesService.create(createRevenueDto);
 
 		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-		assertEquals(RevenueValidationMessages.VALUE_MIN, response.getBody());
+		assertEquals(RevenueValidationMessages.AMOUNT_MIN, response.getBody());
 	}
 
 	@Test

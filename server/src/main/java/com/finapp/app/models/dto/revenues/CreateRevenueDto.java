@@ -2,6 +2,6 @@ package com.finapp.app.models.dto.revenues;
 
 import java.util.Date;
 
-public record CreateRevenueDto(String description, Long value, Boolean isPaid, Date transactionDate) {
+public record CreateRevenueDto(String description, Long amount, Boolean isPaid, Date transactionDate) {
 
 }

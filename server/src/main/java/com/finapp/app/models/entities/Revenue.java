@@ -2,6 +2,7 @@ package com.finapp.app.models.entities;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.finapp.app.validations.messages.RevenueValidationMessages;
 
 import jakarta.persistence.Entity;
@@ -26,9 +27,9 @@ public class Revenue {
 	@Size(min = 3, max = 150, message = RevenueValidationMessages.DESCRIPTION_SIZE)
 	private String description;
 
-	@NotNull(message = RevenueValidationMessages.VALUE_NOT_NULL)
-	@Min(value = 1, message = RevenueValidationMessages.VALUE_MIN)
-	private Long value;
+	@NotNull(message = RevenueValidationMessages.AMOUNT_NOT_NULL)
+	@Min(value = 1, message = RevenueValidationMessages.AMOUNT_MIN)
+	private Long amount;
 
 	@NotNull(message = RevenueValidationMessages.IS_PAID_NOT_NULL)
 	private Boolean isPaid;
@@ -58,9 +59,9 @@ public class Revenue {
 
 	}
 
-	public Revenue(String description, Long value, Boolean isPaid, Date transactionDate, User user) {
+	public Revenue(String description, Long amount, Boolean isPaid, Date transactionDate, User user) {
 		this.description = description;
-		this.value = value;
+		this.amount = amount;
 		this.isPaid = isPaid;
 		this.transactionDate = transactionDate;
 		this.user = user;
@@ -74,12 +75,12 @@ public class Revenue {
 		this.description = description;
 	}
 
-	public long getValue() {
-		return value;
+	public long getAmount() {
+		return amount;
 	}
 
-	public void setValue(long value) {
-		this.value = value;
+	public void setAmount(long amount) {
+		this.amount = amount;
 	}
 
 	public boolean isPaid() {
@@ -98,6 +99,7 @@ public class Revenue {
 		this.transactionDate = transactionDate;
 	}
 
+	@JsonIgnore
 	public User getUser() {
 		return user;
 	}

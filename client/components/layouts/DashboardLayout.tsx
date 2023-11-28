@@ -1,5 +1,5 @@
+import { UserProfileDropDown } from "../dashboard/ui/UserProfileDropDown";
 import { MobileMenu } from "../home/mobileMenu/MobileNavMenu";
-import { ToggleMobileMenuButton } from "../home/mobileMenu/ToggleMobileMenuButton";
 import { Header } from "../templates/header";
 import { FinAppLogo } from "../utils/FinAppLogo";
 import { ModeToggle } from "../utils/ModeToggle";
@@ -16,7 +16,8 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
 
                 <div className="flex items-center gap-5">
                     <ModeToggle />
-                    <ToggleMobileMenuButton />
+                    <UserProfileDropDown />
+                    {/* <ToggleMobileMenuButton /> */}
                 </div>
             </Header.Root>
             <MobileMenu>Await</MobileMenu>

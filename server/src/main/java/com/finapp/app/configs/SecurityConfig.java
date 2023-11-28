@@ -21,7 +21,7 @@ import com.finapp.app.filters.SecurityFilter;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-	
+
 	@Autowired
 	private SecurityFilter securityFilter;
 
@@ -34,30 +34,29 @@ public class SecurityConfig {
 						.requestMatchers(HttpMethod.POST, "/auth/**")
 						.permitAll()
 						.anyRequest()
-						.authenticated()
-				)
+						.authenticated())
 				.addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
 				.build();
 	}
-	
+
 	@Bean
 	public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
-			return authConfig.getAuthenticationManager();
+		return authConfig.getAuthenticationManager();
 	}
-	
+
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-	
+
 	@Bean
 	public WebMvcConfigurer corsConfigurer() {
 		return new WebMvcConfigurer() {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
 				registry.addMapping("/**")
-					.allowedOrigins("http://localhost:3000")
-					.allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS");
+						.allowedOrigins("http://localhost:3000")
+						.allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS");
 			}
 		};
 	}

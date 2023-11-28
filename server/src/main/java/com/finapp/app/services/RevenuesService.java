@@ -3,6 +3,8 @@ package com.finapp.app.services;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -30,10 +32,10 @@ public class RevenuesService {
 			Boolean isPaid = createRevenueDto.isPaid();
 			Date transactionDate = createRevenueDto.transactionDate();
 			String description = createRevenueDto.description();
-			Long value = createRevenueDto.value();
+			Long amount = createRevenueDto.amount();
 
 			User userAuth = this.usersService.getUserAuth();
-			Revenue revenue = new Revenue(description, value, isPaid, transactionDate, userAuth);
+			Revenue revenue = new Revenue(description, amount, isPaid, transactionDate, userAuth);
 			this.revenuesRepository.save(revenue);
 
 			return ResponseEntity.noContent().build();
@@ -42,6 +44,16 @@ public class RevenuesService {
 
 			return ResponseEntity.badRequest().body(violationMessage);
 		}
+
+	}
+
+	public ResponseEntity<Iterable<Revenue>> findAll(int page, int take) {
+		int userAuthId = this.usersService.getUserAuth().getId();
+		Pageable pageable = PageRequest.of(page, take);
+
+		Iterable<Revenue> revenues = this.revenuesRepository.findAllByUserId(userAuthId, pageable);
+
+		return ResponseEntity.ok().body(revenues);
 
 	}
 }
