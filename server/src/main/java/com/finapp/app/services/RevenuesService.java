@@ -48,6 +48,11 @@ public class RevenuesService {
 	}
 
 	public ResponseEntity<Iterable<Revenue>> findAll(int page, int take) {
+		if (isInvalidPageableValues(page, take)) {
+			page = 0;
+			take = 5;
+		}
+
 		int userAuthId = this.usersService.getUserAuth().getId();
 		Pageable pageable = PageRequest.of(page, take);
 
@@ -55,5 +60,13 @@ public class RevenuesService {
 
 		return ResponseEntity.ok().body(revenues);
 
+	}
+
+	private Boolean isInvalidPageableValues(Integer page, Integer take) {
+		Boolean invalidPageValue = page < 0 || page == null;
+		Boolean invalidTakeValue = take < 0 || take == null;
+		Boolean emptyValues = take == 0 && page == 0;
+
+		return invalidPageValue || invalidTakeValue || emptyValues;
 	}
 }

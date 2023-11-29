@@ -2,20 +2,25 @@ package com.finapp.app.services;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import com.finapp.app.models.dto.revenues.CreateRevenueDto;
 import com.finapp.app.models.entities.Revenue;
+import com.finapp.app.models.entities.User;
 import com.finapp.app.models.repositories.RevenuesRepository;
 import com.finapp.app.validations.messages.RevenueValidationMessages;
 
@@ -156,5 +161,66 @@ public class RevenuesServiceTest {
 
 		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
 		assertEquals(RevenueValidationMessages.TRANSACTION_DATE_NOT_REQUIRED, response.getBody());
+	}
+
+	@Test
+	public void findAll_Valid_FirstPage() {
+		int page = 0;
+		int take = 5;
+		List<Revenue> mockRevenues = getMockRevenuesList(take);
+
+		performInFindAll(mockRevenues);
+
+		ResponseEntity<Iterable<Revenue>> response = this.revenuesService.findAll(page, take);
+
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+		assertEquals(mockRevenues.size(), 5);
+		assertEquals(mockRevenues, response.getBody());
+	}
+
+	private List<Revenue> getMockRevenuesList(int size) {
+		List<Revenue> revenues = new ArrayList<>();
+
+		while (revenues.size() < size) {
+			revenues.add(new Revenue());
+		}
+
+		return revenues;
+	}
+
+	private void performInFindAll(List<Revenue> mockRevenues) {
+		when(this.usersService.getUserAuth())
+				.thenReturn(new User());
+		when(this.revenuesRepository.findAllByUserId(anyInt(), any(Pageable.class)))
+				.thenReturn(mockRevenues);
+	}
+
+	@Test
+	public void findAll_Valid_OtherPage() {
+		int page = 1;
+		int take = 5;
+		List<Revenue> mockRevenues = getMockRevenuesList(take);
+
+		performInFindAll(mockRevenues);
+
+		ResponseEntity<Iterable<Revenue>> response = this.revenuesService.findAll(page, take);
+
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+		assertEquals(mockRevenues, response.getBody());
+		assertEquals(mockRevenues.size(), 5);
+	}
+
+	@Test
+	public void findAll_Valid_DefaultValues() {
+		int page = -1;
+		int take = -1;
+		List<Revenue> mockRevenues = getMockRevenuesList(5);
+
+		performInFindAll(mockRevenues);
+
+		ResponseEntity<Iterable<Revenue>> response = this.revenuesService.findAll(page, take);
+
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+		assertEquals(mockRevenues, response.getBody());
 	}
 }
