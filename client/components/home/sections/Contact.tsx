@@ -1,5 +1,5 @@
 import { TypographyP } from "@/components/ui/TypographyP";
-import { ContactForm } from "../ui/contact/ContactForm";
+import { ContactForm } from "../forms/ContactForm";
 
 export function Contact() {
     return (

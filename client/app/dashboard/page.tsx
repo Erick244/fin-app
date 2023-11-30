@@ -1,60 +1,30 @@
-import { RevenueDataTable } from "@/components/dashboard/table/RevenueDataTable";
-import { Revenue } from "@/models/Revenue";
+import { SpendingBarChart } from "@/components/dashboard/charts/SpendingBarChart";
+import { RevenueDataTable } from "@/components/dashboard/revenuesTable/RevenueDataTable";
+import { TableSearch } from "@/components/dashboard/revenuesTable/search/TableSearch";
+import { AddRevenue } from "@/components/dashboard/ui/AddRevenue";
+import { RevenuesTableSkeleton } from "@/components/skeletons/components/RevenuesTableSkeleton";
 import { Metadata } from "next";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
     title: "Dashboard",
 };
 
-const tempData: Revenue[] = [
-    {
-        id: 1,
-        amount: 12.3 * 1000,
-        description: "Description Test 1",
-        isPaid: true,
-        transactionDate: new Date(),
-    },
-    {
-        id: 2,
-        amount: 321.31 * 1000,
-        description: "Description Test 2",
-        isPaid: true,
-        transactionDate: new Date(),
-    },
-    {
-        id: 3,
-        amount: 45.34 * 1000,
-        description: "Description Test 3",
-        isPaid: true,
-        transactionDate: new Date(),
-    },
-    {
-        id: 4,
-        amount: 65.34 * 1000,
-        description: "Description Test 4",
-        isPaid: false,
-        transactionDate: null,
-    },
-    {
-        id: 5,
-        amount: 3213.4 * 1000,
-        description: "Description Test 5",
-        isPaid: true,
-        transactionDate: new Date(),
-    },
-    {
-        id: 6,
-        amount: 3213.25 * 1000,
-        description: "Description Test 6",
-        isPaid: false,
-        transactionDate: null,
-    },
-];
-
 export default function Page() {
     return (
-        <div className="w-1/2">
-            <RevenueDataTable data={tempData} />
+        <div className="sm:p-5 p-0 w-full h-full flex flex-col items-center gap-10">
+            <div className="lg:w-4/5 w-full">
+                <div className="flex items-center p-5 gap-5">
+                    <TableSearch className="flex-grow" />
+                    <AddRevenue />
+                </div>
+                <Suspense fallback={<RevenuesTableSkeleton />}>
+                    <RevenueDataTable />
+                </Suspense>
+            </div>
+            <div className="md:w-4/5 lg:w-1/2 w-full h-1/2">
+                <SpendingBarChart />
+            </div>
         </div>
     );
 }
