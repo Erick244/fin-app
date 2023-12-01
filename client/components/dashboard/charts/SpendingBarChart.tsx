@@ -14,31 +14,38 @@ import {
 const data = [
     {
         name: "Jan",
-        Spent: 2400,
+        Bigger: 2400,
+        Lower: 1400,
     },
     {
         name: "Feb",
-        Spent: 1398,
+        Bigger: 1398,
+        Lower: 100,
     },
     {
         name: "Mar",
-        Spent: 9800,
+        Bigger: 9800,
+        Lower: 1020,
     },
     {
         name: "Apr",
-        Spent: 3908,
+        Bigger: 3908,
+        Lower: 999.4,
     },
     {
         name: "May",
-        Spent: 4800,
+        Bigger: 4800,
+        Lower: 299,
     },
     {
         name: "Jun",
-        Spent: 3800,
+        Bigger: 3800,
+        Lower: 399,
     },
     {
         name: "Jui",
-        Spent: 4300,
+        Bigger: 4300,
+        Lower: 259,
     },
 ];
 
@@ -63,10 +70,22 @@ export function SpendingBarChart(props: HTMLAttributes<HTMLDivElement>) {
                     <CartesianGrid className="stroke-foreground/20" />
                     <XAxis dataKey="name" />
                     <YAxis />
-                    <Tooltip wrapperClassName="dark:text-background text-foreground font-semibold" />
+                    <Tooltip
+                        separator=": $"
+                        wrapperClassName="dark:text-background text-foreground font-semibold"
+                    />
                     <Bar
                         className="fill-foreground"
-                        dataKey="Spent"
+                        dataKey="Bigger"
+                        animationDuration={1500}
+                        activeBar={
+                            <Rectangle className="fill-background stroke-foreground" />
+                        }
+                    />
+                    <Bar
+                        className="fill-foreground"
+                        dataKey="Lower"
+                        animationDuration={1500}
                         activeBar={
                             <Rectangle className="fill-background stroke-foreground" />
                         }

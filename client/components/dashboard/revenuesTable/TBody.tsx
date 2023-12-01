@@ -33,7 +33,7 @@ export function TBody({ data }: TBodyProps) {
                     return (
                         <tr
                             key={revenue.id}
-                            className="border-b border-border hover:bg-secondary/50"
+                            className="border-b border-border hover:bg-secondary/60"
                         >
                             <td className="text-center p-4">{revenueId}</td>
                             <td className="text-center p-4">{amount}</td>

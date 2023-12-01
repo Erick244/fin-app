@@ -2,6 +2,7 @@ import { SpendingBarChart } from "@/components/dashboard/charts/SpendingBarChart
 import { RevenueDataTable } from "@/components/dashboard/revenuesTable/RevenueDataTable";
 import { TableSearch } from "@/components/dashboard/revenuesTable/search/TableSearch";
 import { AddRevenue } from "@/components/dashboard/ui/AddRevenue";
+import { SpendingInformations } from "@/components/dashboard/ui/SpendingInformations";
 import { RevenuesTableSkeleton } from "@/components/skeletons/components/RevenuesTableSkeleton";
 import { Metadata } from "next";
 import { Suspense } from "react";
@@ -22,8 +23,9 @@ export default function Page() {
                     <RevenueDataTable />
                 </Suspense>
             </div>
-            <div className="md:w-4/5 lg:w-1/2 w-full h-1/2">
+            <div className="w-full lg:w-11/12 h-1/2 flex justify-between items-center ms:gap-10 gap-28 lg:flex-row flex-col">
                 <SpendingBarChart />
+                <SpendingInformations />
             </div>
         </div>
     );
