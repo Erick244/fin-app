@@ -7,7 +7,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { UserIcon } from "lucide-react";
-import { UserProfile } from "./UserProfile";
+import { UserProfile } from "./user/UserProfile";
 
 export function UserProfileDropDown() {
     return (

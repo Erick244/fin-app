@@ -102,13 +102,13 @@
 
 /* Track */
 ::-webkit-scrollbar-track {
-    @apply bg-foreground;
+    @apply bg-background;
     border-radius: 5px;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-    @apply bg-background;
+    @apply bg-foreground;
     border-radius: 5px;
 }
 

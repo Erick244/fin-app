@@ -2,6 +2,7 @@ import { Inter as FontSans } from "next/font/google";
 import "./globals.css";
 
 import { ClientProviders } from "@/components/providers";
+import { Toaster } from "@/components/ui/toaster";
 import type { Metadata } from "next";
 import { cn } from "../lib/utils";
 
@@ -33,7 +34,10 @@ export default function RootLayout({ children }: RootLayoutProps) {
                     fontSans.variable
                 )}
             >
-                <ClientProviders>{children}</ClientProviders>
+                <ClientProviders>
+                    {children}
+                    <Toaster />
+                </ClientProviders>
             </body>
         </html>
     );

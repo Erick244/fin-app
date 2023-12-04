@@ -1,6 +1,6 @@
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Plus } from "lucide-react";
-import { CreateRvenueForm } from "../forms/CreateRvenueForm";
+import { CreateRevenueForm } from "../forms/CreateRevenueForm";
 
 export function AddRevenue() {
     return (
@@ -9,8 +9,12 @@ export function AddRevenue() {
                 <Plus className="group-hover:rotate-90" />
             </DialogTrigger>
             <DialogContent>
-                <h1 className="text-xl mb-6">Create Revenue</h1>
-                <CreateRvenueForm />
+                <div className="space-y-7">
+                    <h1 className="text-xl border-b-2 border-border pb-3">
+                        Create Revenue
+                    </h1>
+                    <CreateRevenueForm />
+                </div>
             </DialogContent>
         </Dialog>
     );

@@ -22,7 +22,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
-import { CalendarIcon } from "lucide-react";
+import { CalendarIcon, Plus } from "lucide-react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
@@ -61,7 +61,7 @@ const createRevenueFormSchema = z
 
 type CreateRevenueData = z.infer<typeof createRevenueFormSchema>;
 
-export function CreateRvenueForm() {
+export function CreateRevenueForm() {
     const form = useForm<CreateRevenueData>({
         resolver: zodResolver(createRevenueFormSchema),
         defaultValues: {
@@ -193,7 +193,9 @@ export function CreateRvenueForm() {
                     )}
                 />
 
-                <Button type="submit">Create</Button>
+                <Button type="submit" className="flex items-center gap-2">
+                    <span>Create</span> <Plus className="w-4 h-4" />
+                </Button>
             </form>
         </Form>
     );

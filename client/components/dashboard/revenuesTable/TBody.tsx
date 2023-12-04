@@ -12,7 +12,7 @@ export function TBody({ data }: TBodyProps) {
         <tbody>
             {data &&
                 data.map((revenue) => {
-                    const revenueId = "RVN" + revenue.id;
+                    const revenueTableId = "RVN" + revenue.id;
 
                     const amountInRealValue = revenue.amount / 1000;
                     const amount = new Intl.NumberFormat("en-US", {
@@ -35,7 +35,9 @@ export function TBody({ data }: TBodyProps) {
                             key={revenue.id}
                             className="border-b border-border hover:bg-secondary/60"
                         >
-                            <td className="text-center p-4">{revenueId}</td>
+                            <td className="text-center p-4">
+                                {revenueTableId}
+                            </td>
                             <td className="text-center p-4">{amount}</td>
                             <td className="text-center p-4">{status}</td>
                             <td className="text-center p-4 text-sm sm:block hidden">
@@ -43,8 +45,9 @@ export function TBody({ data }: TBodyProps) {
                             </td>
                             <td className="text-center">
                                 <DetailsMenu
+                                    revenueId={revenue.id}
                                     isPaid={revenue.isPaid}
-                                    label={revenueId}
+                                    label={revenueTableId}
                                 />
                             </td>
                         </tr>
@@ -56,7 +59,7 @@ export function TBody({ data }: TBodyProps) {
 
 function PaidStatus() {
     return (
-        <div className="flex items-center justify-center text-green-500">
+        <div className="flex items-center justify-center text-green-600">
             <CircleDollarSign className="mr-2 h-4 w-4" />
             <span>Paid</span>
         </div>

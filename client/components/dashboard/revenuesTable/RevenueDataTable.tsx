@@ -49,22 +49,13 @@ const tempData: Revenue[] = [
     },
 ];
 
-async function fetchData(): Promise<Revenue[]> {
-    await new Promise((resolve) => {
-        setTimeout(() => {
-            console.log("FAKE LOAD TIME");
-            resolve("FAKE LOAD TIME");
-        }, 5000);
-    });
-
-    return tempData;
+export function findTempDataById(revenueId: number) {
+    return tempData.find((revenue) => revenue.id === revenueId);
 }
 
 export async function RevenueDataTable(
     props: HTMLAttributes<HTMLTableElement>
 ) {
-    // const data = await fetchData();
-
     return (
         <table
             {...props}
