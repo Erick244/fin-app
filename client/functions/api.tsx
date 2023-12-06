@@ -1,10 +1,25 @@
-import axios from "@/lib/axios";
-import { SignUpFormData } from "@/schemas/SignUp.schema";
+"use server";
 
-export async function signUp(data: SignUpFormData): Promise<void> {
+import axios from "@/lib/axios";
+import { AxiosError, AxiosRequestConfig } from "axios";
+
+export async function postData<R>(
+    url: string,
+    body: any,
+    config?: AxiosRequestConfig
+): Promise<R> {
     try {
-        await axios.post("/auth/signup", data);
+        const req = await axios.post(url, body, config);
+        const data = await req.data;
+
+        return data;
     } catch (e: any) {
-        throw e;
+        throw getAxiosEsxceptionMessage(e);
     }
+}
+
+function getAxiosEsxceptionMessage(e: any) {
+    const error = e as AxiosError;
+
+    return error.response?.data ?? "";
 }

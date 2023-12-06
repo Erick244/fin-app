@@ -10,7 +10,7 @@ export function Informations() {
             <div className="max-w-3xl">
                 <h1 className="text-4xl mb-5">Informations</h1>
                 <div className="border-2 border-border p-3 rounded-lg">
-                    <TypographyP className="bg-foreground rounded text-background p-2">
+                    <TypographyP className="bg-foreground rounded text-background p-2 sm:text-left text-center">
                         Lorem ipsum dolor sit amet consectetur adipisicing elit.
                         Non sequi doloremque possimus impedit incidunt? Libero
                         iusto tenetur nam architecto sapiente corporis,
@@ -22,7 +22,7 @@ export function Informations() {
                         distinctio quo officia!
                     </TypographyP>
                     <br />
-                    <TypographyP className="p-2">
+                    <TypographyP className="p-2 sm:text-left text-center">
                         Lorem ipsum dolor, sit amet consectetur adipisicing
                         elit. Dolor commodi facilis fugiat animi autem nulla
                         error, quas vero eaque inventore totam molestiae, iure

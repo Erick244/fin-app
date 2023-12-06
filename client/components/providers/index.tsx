@@ -1,3 +1,4 @@
+import { AuthProviders } from "./AuthProviders";
 import { JotaiProvider } from "./JotaiProvider";
 import { ThemeProvider } from "./ThemeProvider";
 
@@ -13,7 +14,9 @@ export function ClientProviders({ children }: ClientProvidersProps) {
             enableSystem
             disableTransitionOnChange
         >
-            <JotaiProvider>{children}</JotaiProvider>
+            <JotaiProvider>
+                <AuthProviders>{children}</AuthProviders>
+            </JotaiProvider>
         </ThemeProvider>
     );
 }
