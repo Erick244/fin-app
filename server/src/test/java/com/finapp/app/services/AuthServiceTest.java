@@ -17,7 +17,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.finapp.app.models.dto.auth.LoginResponseDto;
@@ -95,13 +94,13 @@ public class AuthServiceTest {
 	}
 
 	private ResponseEntity<?> performSignUpWithConstraintViolations(SignUpDto signUpDto, String errorMessage) {
-    	when(this.usersRepository.save(any(User.class)))
-            .thenThrow(ConstraintViolationException.class);
-    	when(this.validationsService
-            .extractMessageFromConstraintViolationException(any(ConstraintViolationException.class)))
-            .thenReturn(errorMessage);
+		when(this.usersRepository.save(any(User.class)))
+				.thenThrow(ConstraintViolationException.class);
+		when(this.validationsService
+				.extractMessageFromConstraintViolationException(any(ConstraintViolationException.class)))
+				.thenReturn(errorMessage);
 
-    	return this.authService.signUp(signUpDto);
+		return this.authService.signUp(signUpDto);
 	}
 
 	@Test
@@ -174,7 +173,7 @@ public class AuthServiceTest {
 				.thenReturn(mockAuth);
 		when(this.usersRepository.findByEmail(anyString()))
 				.thenReturn(mockUser);
-		when(this.jwtService.generateToken(any(UserDetails.class)))
+		when(this.jwtService.generateToken(anyString()))
 				.thenReturn(mockToken);
 
 		ResponseEntity<?> response = this.authService.signIn(signInDto);

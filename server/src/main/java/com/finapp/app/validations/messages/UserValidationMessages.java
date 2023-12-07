@@ -9,4 +9,5 @@ public class UserValidationMessages {
 	public static final String EMAIL_NOT_VALID = "Invalid e-mail";
 
 	public static final String PASSWORD_NOT_NULL = "The password must not be null";
+	public static final String PASSWORD_SIZE = "The password must be at least 8 characters";
 }

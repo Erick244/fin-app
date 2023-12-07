@@ -30,4 +30,14 @@ public class RevenueController {
 			@RequestParam(defaultValue = "5") int take) {
 		return this.revenuesService.findAll(page, take);
 	}
+
+	@GetMapping("/sevenMouthChart")
+	public ResponseEntity<?> sevenMouthChart() {
+		return this.revenuesService.sevenMouthsChart();
+	}
+
+	@GetMapping("/abc")
+	public String abc() {
+		return "ABC";
+	}
 }

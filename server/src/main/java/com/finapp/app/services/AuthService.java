@@ -6,10 +6,10 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.finapp.app.models.dto.auth.LoginResponseDto;
 import com.finapp.app.models.dto.auth.SignInDto;
 import com.finapp.app.models.dto.auth.SignUpDto;
@@ -83,15 +83,27 @@ public class AuthService {
 			String email = signInDto.email();
 			String password = signInDto.password();
 			Authentication authToken = new UsernamePasswordAuthenticationToken(email, password);
-			Authentication auth = this.authenticationManager.authenticate(authToken);
+
+			this.authenticationManager.authenticate(authToken);
 
 			User userAuth = this.usersRepository.findByEmail(email);
-			String jwtToken = this.jwtService.generateToken((UserDetails) auth.getPrincipal());
+			String jwtToken = this.jwtService.generateToken(email);
 			return ResponseEntity.ok(new LoginResponseDto(userAuth, jwtToken));
 		} catch (BadCredentialsException e) {
 			String badCredentialMessage = "Non-existent user or invalid password";
 
 			return ResponseEntity.badRequest().body(badCredentialMessage);
+		}
+	}
+
+	public ResponseEntity<?> userByToken(String token) {
+		try {
+			String email = this.jwtService.validationToken(token);
+			User user = this.usersRepository.findByEmail(email);
+
+			return ResponseEntity.ok().body(user);
+		} catch (JWTDecodeException e) {
+			return ResponseEntity.badRequest().body("Invalid token");
 		}
 	}
 }

@@ -1,5 +1,6 @@
 package com.finapp.app.services;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,5 +69,16 @@ public class RevenuesService {
 		Boolean emptyValues = take == 0 && page == 0;
 
 		return invalidPageValue || invalidTakeValue || emptyValues;
+	}
+
+	public ResponseEntity<?> sevenMouthsChart() {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(new Date());
+
+		int currentMouth = calendar.get(Calendar.MONTH);
+
+		// Obter as revenues de 3 meses antes do atual e 3 meses depois do atual
+
+		return ResponseEntity.ok().body(currentMouth);
 	}
 }

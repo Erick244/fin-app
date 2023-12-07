@@ -35,6 +35,7 @@ public class User {
 	private String email;
 
 	@NotNull(message = UserValidationMessages.PASSWORD_NOT_NULL)
+	@Size(min = 8, message = UserValidationMessages.PASSWORD_SIZE)
 	private String password;
 
 	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER)

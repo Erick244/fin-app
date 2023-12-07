@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import com.auth0.jwt.JWT;
@@ -22,14 +21,14 @@ public class JwtService {
 	@Value("${jwt.token.secret}")
 	private String secret;
 
-	public String generateToken(UserDetails userDetails) {
+	public String generateToken(String email) {
 		try {
 			Algorithm algorithm = this.getAlgorithm();
 			int expiryTime = ONE_MOUTH_IN_SECONDS;
 
 			String token = JWT.create()
 					.withIssuer(ISSUER)
-					.withSubject(userDetails.getUsername())
+					.withSubject(email)
 					.withExpiresAt(this.createExpiryTime(expiryTime))
 					.sign(algorithm);
 
@@ -51,19 +50,15 @@ public class JwtService {
 		return expiryTime;
 	}
 
-	public String validationToken(String token) {
-		try {
-			Algorithm algorithm = this.getAlgorithm();
+	public String validationToken(String token) throws JWTDecodeException {
+		Algorithm algorithm = this.getAlgorithm();
 
-			String subject = JWT.require(algorithm)
-					.withIssuer(ISSUER)
-					.build()
-					.verify(token)
-					.getSubject();
+		String subject = JWT.require(algorithm)
+				.withIssuer(ISSUER)
+				.build()
+				.verify(token)
+				.getSubject();
 
-			return subject;
-		} catch (JWTDecodeException e) {
-			return "";
-		}
+		return subject;
 	}
 }
