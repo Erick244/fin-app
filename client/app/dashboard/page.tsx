@@ -4,6 +4,8 @@ import { TableSearch } from "@/components/dashboard/revenuesTable/search/TableSe
 import { AddRevenue } from "@/components/dashboard/ui/AddRevenue";
 import { SpendingInformations } from "@/components/dashboard/ui/SpendingInformations";
 import { RevenuesTableSkeleton } from "@/components/skeletons/components/RevenuesTableSkeleton";
+import { existCookieOrRedirect } from "@/functions/server-cookies";
+import { AUTH_TOKEN_NAME } from "@/utils/constants";
 import { Metadata } from "next";
 import { Suspense } from "react";
 
@@ -12,6 +14,8 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
+    existCookieOrRedirect(AUTH_TOKEN_NAME, "/auth");
+
     return (
         <div className="sm:p-5 p-0 w-full h-full flex flex-col items-center gap-10">
             <div className="lg:w-4/5 w-full">

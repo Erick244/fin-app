@@ -23,3 +23,17 @@ function getAxiosEsxceptionMessage(e: any) {
 
     return error.response?.data ?? "";
 }
+
+export async function getData<R>(
+    url: string,
+    config?: AxiosRequestConfig
+): Promise<R> {
+    try {
+        const req = await axios.get(url, config);
+        const data = await req.data;
+
+        return data;
+    } catch (e: any) {
+        throw getAxiosEsxceptionMessage(e);
+    }
+}

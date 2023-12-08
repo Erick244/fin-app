@@ -1,6 +1,6 @@
 import * as z from "zod";
 
-const signUpFormSchema = z
+export const signUpFormSchema = z
     .object({
         name: z.string().min(3).max(20),
         email: z.string().email(),
@@ -17,7 +17,4 @@ const signUpFormSchema = z
         }
     );
 
-type SignUpFormData = z.infer<typeof signUpFormSchema>;
-
-export { signUpFormSchema };
-export type { SignUpFormData };
+export type SignUpFormData = z.infer<typeof signUpFormSchema>;

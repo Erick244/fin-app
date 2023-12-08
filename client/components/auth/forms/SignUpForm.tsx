@@ -10,11 +10,9 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
-import { useToast } from "@/components/ui/use-toast";
-import { postData } from "@/functions/api";
+import { useAuthContext } from "@/contexts/auth/AuthContext";
 import { SignUpFormData, signUpFormSchema } from "@/schemas/SignUp.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
@@ -29,32 +27,13 @@ export function SignUpForm() {
         },
     });
 
-    const { toast } = useToast();
-    const router = useRouter();
-
     const [loading, setLoading] = useState<boolean>(false);
+    const { signUp } = useAuthContext();
 
     async function onSubmit(data: SignUpFormData) {
-        try {
-            setLoading(true);
-            await postData("/auth/signup", data);
-            router.push("/auth/login");
-
-            toast({
-                title: "Success",
-                description: "Account created successfully!",
-            });
-        } catch (e: any) {
-            const errorMessage = String(e.message);
-
-            toast({
-                title: errorMessage,
-                description: "Try using another e-mail.",
-                variant: "destructive",
-            });
-        } finally {
-            setLoading(false);
-        }
+        setLoading(true);
+        await signUp(data);
+        setLoading(false);
     }
 
     return (

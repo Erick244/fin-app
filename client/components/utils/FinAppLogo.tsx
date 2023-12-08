@@ -29,7 +29,7 @@ export function FinAppLogo({ size, ...rest }: FinAppLogoProps) {
             </span>
             <span
                 className={cn(
-                    "font-light self-end text-6xl",
+                    "font-light self-end",
                     sizeClasses[size || "MD"][1]
                 )}
             >

@@ -9,16 +9,12 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Spinner } from "@/components/ui/spinner";
+import { useAuthContext } from "@/contexts/auth/AuthContext";
+import { SignInFormData, signInFormSchema } from "@/schemas/SignIn.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
-import * as z from "zod";
-
-const signInFormSchema = z.object({
-    email: z.string().email(),
-    password: z.string().min(8),
-});
-
-type SignInFormData = z.infer<typeof signInFormSchema>;
 
 export function SignInForm() {
     const form = useForm<SignInFormData>({
@@ -29,13 +25,18 @@ export function SignInForm() {
         },
     });
 
-    function signIn(data: SignInFormData) {
-        console.log(data);
+    const [loading, setLoading] = useState<boolean>(false);
+    const { login } = useAuthContext();
+
+    async function onSubmit(data: SignInFormData) {
+        setLoading(true);
+        await login(data);
+        setLoading(false);
     }
 
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(signIn)} className="space-y-6">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                 <FormField
                     control={form.control}
                     name="email"
@@ -74,7 +75,7 @@ export function SignInForm() {
                 />
 
                 <Button type="submit" className="w-full">
-                    Enter
+                    {loading ? <Spinner className="w-6 h-6" /> : "Enter"}
                 </Button>
             </form>
         </Form>

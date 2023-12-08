@@ -1,5 +1,6 @@
 "use client";
 import { Button, ButtonProps } from "@/components/ui/button";
+import { useAuthContext } from "@/contexts/auth/AuthContext";
 import { cn } from "@/lib/utils";
 import { BarChart4 } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -18,6 +19,16 @@ export function GettingStartedButton({
     ...props
 }: GettingStartedButtonProps) {
     const router = useRouter();
+    const { isAuth } = useAuthContext();
+
+    function onClick() {
+        if (isAuth()) {
+            router.prefetch("/dashboard");
+            router.push("/dashboard");
+        } else {
+            router.push("/auth/signup");
+        }
+    }
 
     return (
         <Button
@@ -26,7 +37,7 @@ export function GettingStartedButton({
                 "flex gap-2 items-center font-semibold",
                 props.className
             )}
-            onClick={() => router.push("/auth")}
+            onClick={onClick}
         >
             {!removeLabel && (
                 <span
