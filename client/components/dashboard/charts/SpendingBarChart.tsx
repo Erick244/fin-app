@@ -1,4 +1,5 @@
 "use client";
+import { SpendingChartData } from "@/models/SpendingChartData";
 import { HTMLAttributes } from "react";
 import {
     Bar,
@@ -11,47 +12,13 @@ import {
     YAxis,
 } from "recharts";
 
-const data = [
-    {
-        name: "Jan",
-        Bigger: 2400,
-        Lower: 1400,
-    },
-    {
-        name: "Feb",
-        Bigger: 1398,
-        Lower: 100,
-    },
-    {
-        name: "Mar",
-        Bigger: 9800,
-        Lower: 1020,
-    },
-    {
-        name: "Apr",
-        Bigger: 3908,
-        Lower: 999.4,
-    },
-    {
-        name: "May",
-        Bigger: 4800,
-        Lower: 299,
-    },
-    {
-        name: "Jun",
-        Bigger: 3800,
-        Lower: 399,
-    },
-    {
-        name: "Jui",
-        Bigger: 4300,
-        Lower: 259,
-    },
-];
+interface SpendingBarChartProps extends HTMLAttributes<HTMLDivElement> {
+    data: SpendingChartData[];
+}
 
-export function SpendingBarChart(props: HTMLAttributes<HTMLDivElement>) {
+export function SpendingBarChart({ data, ...rest }: SpendingBarChartProps) {
     return (
-        <div {...props} className="w-full h-full">
+        <div {...rest} className="w-full h-full">
             <h1 className="sm:text-4xl text-3xl text-center mb-6">
                 Monthly Expenses
             </h1>
@@ -68,7 +35,7 @@ export function SpendingBarChart(props: HTMLAttributes<HTMLDivElement>) {
                     }}
                 >
                     <CartesianGrid className="stroke-foreground/20" />
-                    <XAxis dataKey="name" />
+                    <XAxis dataKey="Month" />
                     <YAxis />
                     <Tooltip
                         separator=": $"

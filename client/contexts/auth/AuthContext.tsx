@@ -21,7 +21,6 @@ interface AuthContextProps {
     signUp: (data: SignUpFormData) => Promise<void>;
     isAuth: () => boolean;
     logOut: () => void;
-    verifyCode: (code: string) => Promise<void>;
 }
 
 const AuthContext = createContext({} as AuthContextProps);
@@ -87,28 +86,7 @@ export default function AuthContextProvider({
 
             toast({
                 title: "Success",
-                description: "A code has been sent to your email.",
-            });
-        } catch (e: any) {
-            toast({
-                title: String(e.message),
-                variant: "destructive",
-            });
-        }
-    }
-
-    async function verifyCode(code: string) {
-        try {
-            await getData(`/auth/verifyCode/${code}`);
-
-            deleteClientCookie(VERIFY_COOKIE_NAME);
-            router.push("/auth/login");
-            router.refresh();
-
-            toast({
-                title: "Success",
-                description:
-                    "Account created successfully. To complete your registration, log in.",
+                description: "A code has been sent to your e-mail.",
             });
         } catch (e: any) {
             toast({
@@ -133,9 +111,7 @@ export default function AuthContextProvider({
     }
 
     return (
-        <AuthContext.Provider
-            value={{ user, login, signUp, isAuth, logOut, verifyCode }}
-        >
+        <AuthContext.Provider value={{ user, login, signUp, isAuth, logOut }}>
             {children}
         </AuthContext.Provider>
     );

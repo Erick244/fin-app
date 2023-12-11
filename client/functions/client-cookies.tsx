@@ -16,5 +16,7 @@ export function setClientCookie(key: string, value: any) {
 }
 
 export function deleteClientCookie(key: string) {
-    destroyCookie(null, key);
+    destroyCookie(null, key, {
+        path: "/",
+    });
 }

@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/popover";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Textarea } from "@/components/ui/textarea";
+import { postData } from "@/functions/api";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
@@ -39,7 +40,7 @@ const createRevenueFormSchema = z
                     message: "The value must be greater than 0",
                 }
             )
-            .transform((value) => parseFloat(value)),
+            .transform((value) => parseFloat(value) * 1000),
         description: z.string().min(3).max(150),
         isPaid: z.boolean(),
         transactionDate: z.date().nullable(),
@@ -73,7 +74,7 @@ export function CreateRevenueForm() {
     });
 
     function onSubmit(data: CreateRevenueData) {
-        console.log(data);
+        postData("/revenues", data);
     }
 
     return (

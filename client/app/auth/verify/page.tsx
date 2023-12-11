@@ -1,4 +1,6 @@
 import { EmailCodeForm } from "@/components/auth/forms/EmailCodeForm";
+import { ResendEmail } from "@/components/auth/ui/ResendEmail";
+import { ReturnToSignup } from "@/components/auth/ui/ReturnToSignup";
 import {
     existCookieOrRedirect,
     notExistCookieOrRedirect,
@@ -6,14 +8,11 @@ import {
 import { AUTH_TOKEN_NAME, VERIFY_COOKIE_NAME } from "@/utils/constants";
 
 export default function Page() {
-    //TODO: Desenvolver a opção do usuario reenviar o e-mal depois de um cooldawn
-    //TODO: Desenvolver a opção do usuario editar o e-mail.
-
     notExistCookieOrRedirect(AUTH_TOKEN_NAME, "/");
     existCookieOrRedirect(VERIFY_COOKIE_NAME, "/");
 
     return (
-        <div className="space-y-10 w-full">
+        <div className="space-y-10 w-full flex flex-col">
             <div>
                 <h1 className="text-3xl font-semibold text-center">
                     Verification code
@@ -25,6 +24,8 @@ export default function Page() {
             <div className="w-full p-5 md:p-0 space-y-5">
                 <EmailCodeForm />
             </div>
+            <ResendEmail className="self-center" />
+            <ReturnToSignup className="absolute top-0 left-10" />
         </div>
     );
 }

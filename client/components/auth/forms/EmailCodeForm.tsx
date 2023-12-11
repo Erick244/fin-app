@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
-import { useAuthContext } from "@/contexts/auth/AuthContext";
+import { useVerifyCodeContext } from "@/contexts/auth/VerifyCodeContext";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ClipboardEvent, KeyboardEvent, useState } from "react";
@@ -37,7 +37,7 @@ export function EmailCodeForm() {
     });
 
     const [loading, setLoading] = useState<boolean>(false);
-    const { verifyCode } = useAuthContext();
+    const { verifyCode } = useVerifyCodeContext();
 
     async function onSubmit(data: EmailCodeFormData) {
         const code = Object.values(data).join("").replace(",", "");

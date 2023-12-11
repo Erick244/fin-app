@@ -1,4 +1,4 @@
-import { SpendingBarChart } from "@/components/dashboard/charts/SpendingBarChart";
+import { SpendingBarChartWrapper } from "@/components/dashboard/charts/SpendingBarChartWrapper";
 import { RevenueDataTable } from "@/components/dashboard/revenuesTable/RevenueDataTable";
 import { TableSearch } from "@/components/dashboard/revenuesTable/search/TableSearch";
 import { AddRevenue } from "@/components/dashboard/ui/AddRevenue";
@@ -28,7 +28,7 @@ export default function Page() {
                 </Suspense>
             </div>
             <div className="w-full lg:w-11/12 h-1/2 flex justify-between items-center ms:gap-10 gap-28 lg:flex-row flex-col">
-                <SpendingBarChart />
+                <SpendingBarChartWrapper />
                 <SpendingInformations />
             </div>
         </div>

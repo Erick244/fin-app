@@ -1,10 +1,10 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-function getCookie(key: string) {
+export function getCookie(key: string) {
     const cookie = cookies().get(key);
 
-    return cookie;
+    return cookie?.value;
 }
 
 export function existCookieOrRedirect(cookieKey: string, redirectPaht: string) {
