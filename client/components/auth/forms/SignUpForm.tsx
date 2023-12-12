@@ -113,7 +113,7 @@ export function SignUpForm() {
                 )}
 
                 <Button type="submit" className="w-full">
-                    {loading ? <Spinner className="w-6 h-6" /> : "Submit"}
+                    {loading ? <Spinner /> : "Submit"}
                 </Button>
             </form>
         </Form>

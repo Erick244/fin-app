@@ -18,49 +18,20 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Spinner } from "@/components/ui/spinner";
 import { Textarea } from "@/components/ui/textarea";
+import { toast } from "@/components/ui/use-toast";
 import { postData } from "@/functions/api";
 import { cn } from "@/lib/utils";
+import {
+    CreateRevenueData,
+    createRevenueFormSchema,
+} from "@/schemas/CreateRevenue.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { CalendarIcon, Plus } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
-import * as z from "zod";
-
-const createRevenueFormSchema = z
-    .object({
-        amount: z
-            .any()
-            .refine(
-                (value) => {
-                    const parsedNumber = parseFloat(value);
-                    return !isNaN(parsedNumber) && parsedNumber > 0;
-                },
-                {
-                    message: "The value must be greater than 0",
-                }
-            )
-            .transform((value) => parseFloat(value) * 1000),
-        description: z.string().min(3).max(150),
-        isPaid: z.boolean(),
-        transactionDate: z.date().nullable(),
-    })
-    .refine(
-        ({ isPaid, transactionDate }) => {
-            if (isPaid) {
-                const existTransactionDate = !!transactionDate;
-                return existTransactionDate;
-            }
-            return true;
-        },
-        {
-            message:
-                "The transaction date is required when the 'Payment State' is 'Paid'",
-            path: ["transactionDate"],
-        }
-    );
-
-type CreateRevenueData = z.infer<typeof createRevenueFormSchema>;
 
 export function CreateRevenueForm() {
     const form = useForm<CreateRevenueData>({
@@ -73,9 +44,27 @@ export function CreateRevenueForm() {
         },
     });
 
-    function onSubmit(data: CreateRevenueData) {
-        postData("/revenues", data);
+    const router = useRouter();
+
+    async function onSubmit(data: CreateRevenueData) {
+        try {
+            await postData("/revenues", data);
+
+            router.refresh();
+            toast({
+                title: "Success",
+                description: "Revenue created.",
+                duration: 2000,
+            });
+        } catch (e: any) {
+            toast({
+                title: String(e.message),
+                variant: "destructive",
+            });
+        }
     }
+
+    const isSubmitting = form.formState.isSubmitting;
 
     return (
         <Form {...form}>
@@ -195,7 +184,13 @@ export function CreateRevenueForm() {
                 />
 
                 <Button type="submit" className="flex items-center gap-2">
-                    <span>Create</span> <Plus className="w-4 h-4" />
+                    {isSubmitting ? (
+                        <Spinner />
+                    ) : (
+                        <>
+                            <span>Create</span> <Plus className="w-4 h-4" />
+                        </>
+                    )}
                 </Button>
             </form>
         </Form>

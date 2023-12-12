@@ -18,68 +18,60 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Spinner } from "@/components/ui/spinner";
 import { Textarea } from "@/components/ui/textarea";
+import { toast } from "@/components/ui/use-toast";
+import { patchData } from "@/functions/api";
+import {
+    extractFormatedDateFromIsoDate,
+    extractSimpleDateFromIsoDate,
+} from "@/functions/data";
 import { cn } from "@/lib/utils";
+import { Revenue } from "@/models/Revenue";
+import {
+    EditRevenueData,
+    editRevenueFormSchema,
+} from "@/schemas/EditRevenue.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { format } from "date-fns";
 import { CalendarIcon, Edit } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
-import * as z from "zod";
-import { findTempDataById } from "../revenuesTable/RevenueDataTable";
-
-const editRevenueFormSchema = z
-    .object({
-        amount: z
-            .any()
-            .refine(
-                (value) => {
-                    const parsedNumber = parseFloat(value);
-                    return !isNaN(parsedNumber) && parsedNumber > 0;
-                },
-                {
-                    message: "The value must be greater than 0",
-                }
-            )
-            .transform((value) => parseFloat(value)),
-        description: z.string().min(3).max(150),
-        isPaid: z.boolean(),
-        transactionDate: z.date().nullable(),
-    })
-    .refine(
-        ({ isPaid, transactionDate }) => {
-            if (isPaid) {
-                const existTransactionDate = !!transactionDate;
-                return existTransactionDate;
-            }
-            return true;
-        },
-        {
-            message:
-                "The transaction date is required when the 'Payment State' is 'Paid'",
-            path: ["transactionDate"],
-        }
-    );
-
-type EditRevenueData = z.infer<typeof editRevenueFormSchema>;
 
 interface EditRevenueFormProps {
-    revenueId: number;
+    revenue: Revenue;
 }
 
-export function EditRevenueForm({ revenueId }: EditRevenueFormProps) {
-    const revenue = findTempDataById(revenueId);
-
+export function EditRevenueForm({ revenue }: EditRevenueFormProps) {
     const form = useForm<EditRevenueData>({
         resolver: zodResolver(editRevenueFormSchema),
         defaultValues: {
             ...revenue,
-            amount: revenue ? revenue.amount / 1000 : 0,
+            transactionDate:
+                extractSimpleDateFromIsoDate(revenue.transactionDate) || null,
+            amount: revenue.amount / 1000,
         },
     });
 
-    function onSubmit(data: EditRevenueData) {
-        console.log(data);
+    const router = useRouter();
+
+    async function onSubmit(data: EditRevenueData) {
+        try {
+            await patchData(`/revenues/edit/${revenue.id}`, data);
+
+            router.refresh();
+            toast({
+                title: "Success",
+                description: `Revenue - ${revenue.id} edited.`,
+                duration: 2000,
+            });
+        } catch (e: any) {
+            toast({
+                title: String(e.message),
+                variant: "destructive",
+            });
+        }
     }
+    const isSubmitting = form.formState.isSubmitting;
 
     return (
         <Form {...form}>
@@ -154,7 +146,9 @@ export function EditRevenueForm({ revenueId }: EditRevenueFormProps) {
                                                 )}
                                             >
                                                 {field.value ? (
-                                                    format(field.value, "PPP")
+                                                    extractFormatedDateFromIsoDate(
+                                                        field.value
+                                                    )
                                                 ) : (
                                                     <span>Pick a date</span>
                                                 )}
@@ -199,7 +193,13 @@ export function EditRevenueForm({ revenueId }: EditRevenueFormProps) {
                 />
 
                 <Button type="submit" className="flex items-center gap-2">
-                    <span>Edit</span> <Edit className="w-4 h-4" />
+                    {isSubmitting ? (
+                        <Spinner />
+                    ) : (
+                        <>
+                            <span>Edit</span> <Edit className="w-4 h-4" />
+                        </>
+                    )}
                 </Button>
             </form>
         </Form>

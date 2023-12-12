@@ -75,7 +75,7 @@ export function SignInForm() {
                 />
 
                 <Button type="submit" className="w-full">
-                    {loading ? <Spinner className="w-6 h-6" /> : "Enter"}
+                    {loading ? <Spinner /> : "Enter"}
                 </Button>
             </form>
         </Form>

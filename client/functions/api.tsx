@@ -37,3 +37,18 @@ export async function getData<R>(
         throw getAxiosEsxceptionMessage(e);
     }
 }
+
+export async function patchData<R>(
+    url: string,
+    body: any,
+    config?: AxiosRequestConfig
+): Promise<R> {
+    try {
+        const req = await axios.patch(url, body, config);
+        const data = await req.data;
+
+        return data;
+    } catch (e: any) {
+        throw getAxiosEsxceptionMessage(e);
+    }
+}

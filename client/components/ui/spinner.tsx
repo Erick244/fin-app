@@ -8,7 +8,7 @@ export function Spinner(props: HTMLAttributes<HTMLOrSVGElement>) {
                 {...props}
                 aria-hidden="true"
                 className={cn(
-                    "w-8 h-8 animate-spin text-background fill-foreground",
+                    "w-6 h-6 animate-spin text-background fill-foreground",
                     props.className
                 )}
                 viewBox="0 0 100 101"

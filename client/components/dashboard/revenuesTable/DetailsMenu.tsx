@@ -11,6 +11,7 @@ import {
     DropdownMenuSubTrigger,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Revenue } from "@/models/Revenue";
 import {
     Calendar,
     CircleDollarSign,
@@ -26,11 +27,10 @@ import { PayRevenueDialog } from "./dialogs/PayRevenueDialog";
 
 interface DetailsMenuProps {
     label: string;
-    isPaid: boolean;
-    revenueId: number;
+    revenue: Revenue;
 }
 
-export function DetailsMenu({ label, isPaid, revenueId }: DetailsMenuProps) {
+export function DetailsMenu({ label, revenue }: DetailsMenuProps) {
     return (
         <DropdownMenu modal={false}>
             <DropdownMenuTrigger className="p-4">
@@ -40,16 +40,16 @@ export function DetailsMenu({ label, isPaid, revenueId }: DetailsMenuProps) {
                 <DropdownMenuLabel>{label}</DropdownMenuLabel>
                 <DropdownMenuSeparator />
 
-                <EditRevenueDialog revenueId={revenueId} title={label}>
+                <EditRevenueDialog revenue={revenue} title={label}>
                     <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
                         <MessageSquare className="mr-2 h-4 w-4" />
                         <span>Description</span>
                     </DropdownMenuItem>
                 </EditRevenueDialog>
 
-                {isPaid ? (
+                {revenue.isPaid ? (
                     <EditRevenueDialog
-                        revenueId={revenueId}
+                        revenue={revenue}
                         title={label}
                         className="sm:hidden inline"
                     >
@@ -60,7 +60,7 @@ export function DetailsMenu({ label, isPaid, revenueId }: DetailsMenuProps) {
                     </EditRevenueDialog>
                 ) : (
                     <PayRevenueDialog
-                        revenueId={revenueId}
+                        revenueId={revenue.id}
                         title={`Pay - ${label}`}
                     >
                         <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
@@ -80,7 +80,7 @@ export function DetailsMenu({ label, isPaid, revenueId }: DetailsMenuProps) {
                     <DropdownMenuPortal>
                         <DropdownMenuSubContent>
                             <EditRevenueDialog
-                                revenueId={revenueId}
+                                revenue={revenue}
                                 title={`Edit - ${label}`}
                             >
                                 <DropdownMenuItem
@@ -92,7 +92,7 @@ export function DetailsMenu({ label, isPaid, revenueId }: DetailsMenuProps) {
                             </EditRevenueDialog>
 
                             <DeleteRevenueDialog
-                                revenueId={revenueId}
+                                revenueId={revenue.id}
                                 title={`Delete - ${label}`}
                             >
                                 <DropdownMenuItem

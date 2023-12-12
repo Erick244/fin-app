@@ -1,5 +1,5 @@
+import { extractFormatedDateFromIsoDate } from "@/functions/data";
 import { Revenue } from "@/models/Revenue";
-import { format } from "date-fns";
 import { CircleDollarSign, Clock } from "lucide-react";
 import { DetailsMenu } from "./DetailsMenu";
 
@@ -14,11 +14,11 @@ export function TBody({ data }: TBodyProps) {
                 data.map((revenue) => {
                     const revenueTableId = "RVN" + revenue.id;
 
-                    const amountInRealValue = revenue.amount / 1000;
+                    const amountInDolarValue = revenue.amount / 1000;
                     const amount = new Intl.NumberFormat("en-US", {
                         style: "currency",
                         currency: "USD",
-                    }).format(amountInRealValue);
+                    }).format(amountInDolarValue);
 
                     const status = revenue.isPaid ? (
                         <PaidStatus />
@@ -26,8 +26,9 @@ export function TBody({ data }: TBodyProps) {
                         <NotPaidStatus />
                     );
 
-                    const transactionDate = revenue.transactionDate
-                        ? format(revenue.transactionDate, "PPP")
+                    const transactionDate = revenue.transactionDate;
+                    const transactionDateFormated = transactionDate
+                        ? extractFormatedDateFromIsoDate(transactionDate)
                         : "No Date";
 
                     return (
@@ -41,12 +42,11 @@ export function TBody({ data }: TBodyProps) {
                             <td className="text-center p-4">{amount}</td>
                             <td className="text-center p-4">{status}</td>
                             <td className="text-center p-4 text-sm sm:block hidden">
-                                {transactionDate}
+                                {transactionDateFormated}
                             </td>
                             <td className="text-center">
                                 <DetailsMenu
-                                    revenueId={revenue.id}
-                                    isPaid={revenue.isPaid}
+                                    revenue={revenue}
                                     label={revenueTableId}
                                 />
                             </td>

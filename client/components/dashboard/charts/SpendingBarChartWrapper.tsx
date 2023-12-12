@@ -10,12 +10,12 @@ export async function SpendingBarChartWrapper(
         "/revenues/sevenMonthsChart"
     );
 
-    const spendingData = data.map((spending) => {
+    const spendingDataFormated = data.map((spending) => {
         spending.Bigger /= 1000;
         spending.Lower /= 1000;
 
         return spending;
     });
 
-    return <SpendingBarChart data={spendingData} {...props} />;
+    return <SpendingBarChart data={spendingDataFormated} {...props} />;
 }

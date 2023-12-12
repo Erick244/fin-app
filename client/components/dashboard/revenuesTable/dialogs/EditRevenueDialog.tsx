@@ -1,18 +1,19 @@
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
+import { Revenue } from "@/models/Revenue";
 import { HTMLAttributes } from "react";
 import { EditRevenueForm } from "../../forms/EditRevenueForm";
 
 interface EditRevenueDialogProps extends HTMLAttributes<HTMLElement> {
     children: React.ReactNode;
     title: string;
-    revenueId: number;
+    revenue: Revenue;
 }
 
 export function EditRevenueDialog({
     children,
     title,
-    revenueId,
+    revenue,
     ...rest
 }: EditRevenueDialogProps) {
     return (
@@ -25,7 +26,7 @@ export function EditRevenueDialog({
                     <h1 className="text-xl border-b-2 border-border pb-3">
                         {title}
                     </h1>
-                    <EditRevenueForm revenueId={revenueId} />
+                    <EditRevenueForm revenue={revenue} />
                 </div>
             </DialogContent>
         </Dialog>
