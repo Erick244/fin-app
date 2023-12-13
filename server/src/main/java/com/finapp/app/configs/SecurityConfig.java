@@ -14,6 +14,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
 import com.finapp.app.filters.SecurityFilter;
 
 @Configuration
@@ -29,12 +30,10 @@ public class SecurityConfig {
 				.csrf(csrf -> csrf.disable())
 				.cors(Customizer.withDefaults())
 				.authorizeHttpRequests(auth -> auth
-						.requestMatchers("/auth/**")
+						.requestMatchers("/auth/**", "/webjars/**")
 						.permitAll()
 						.anyRequest()
 						.authenticated())
-				.oauth2Login(o -> o.defaultSuccessUrl("http://localhost:3000"))
-				.logout(logout -> logout.logoutSuccessUrl("/").permitAll())
 				.addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
 				.build();
 	}

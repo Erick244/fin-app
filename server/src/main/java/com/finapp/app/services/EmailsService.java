@@ -29,17 +29,23 @@ public class EmailsService {
 		mailSender.send(message);
 	}
 
-	public void sendCodeEmail(String to, Integer code) throws MessagingException, IOException {
-		String codeFormated = code.toString().replace("", " ");
+	public void sendCodeEmail(String to, String code) {
+		try {
+			String subject = "FinApp Verification Code";
+			String htmlContent = getHtmlStringPage("src/main/resources/templates/emailCode.html");
+			htmlContent = htmlContent.replace("{{code}}", code);
 
-		String subject = "FinApp Verification Code";
+			sendEmail(to, subject, htmlContent);
+		} catch (Exception e) {
+			System.out.println("Erro ao enviar o e-email");
+		}
 
-		String htmlContent = new String(Files.readAllBytes(Paths.get(
-				"src/main/resources/templates/emailCode.html")));
+	}
 
-		htmlContent = htmlContent.replace("{{code}}", codeFormated);
+	private String getHtmlStringPage(String htmlPath) throws IOException {
+		String htmlContent = new String(Files.readAllBytes(Paths.get(htmlPath)));
 
-		sendEmail(to, subject, htmlContent);
+		return htmlContent;
 	}
 
 }

@@ -35,6 +35,12 @@ public class AuthService {
 	@Autowired
 	private JwtService jwtService;
 
+	@Autowired
+	private CodeService codeService;
+
+	@Autowired
+	private EmailsService emailsService;
+
 	public ResponseEntity<?> signUp(SignUpDto signUpDto) {
 		try {
 			String email = signUpDto.email();
@@ -50,9 +56,9 @@ public class AuthService {
 
 			String encryptedPassword = passwordEncoder.encode(password);
 			String name = signUpDto.name();
-
 			User newUser = new User(name, email, encryptedPassword);
-			this.usersRepository.save(newUser);
+
+			configAndSendVerifyEmailCode(newUser);
 
 			return ResponseEntity.noContent().build();
 		} catch (ConstraintViolationException e) {
@@ -76,6 +82,53 @@ public class AuthService {
 		boolean thePasswordsDontsMatch = !password.equals(confirmPassword);
 
 		return thePasswordsDontsMatch;
+	}
+
+	private void configAndSendVerifyEmailCode(User saveUser) {
+		String verifyCode = this.codeService.genCode();
+
+		this.codeService.setUserSave(saveUser);
+
+		this.emailsService.sendCodeEmail(saveUser.getEmail(), verifyCode);
+	}
+
+	public ResponseEntity<?> resendVerifyEmailCode() {
+		try {
+			String newVerifyCode = this.codeService.genCode();
+
+			User savedUser = this.codeService.getUserSave();
+			String email = savedUser.getEmail();
+
+			this.emailsService.sendCodeEmail(email, newVerifyCode);
+
+			String successMessage = String.format("A new e-mail has been sent to %s", email);
+			return ResponseEntity.ok().body(successMessage);
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().body("Failed to resend the e-mail");
+		}
+
+	}
+
+	public ResponseEntity<?> createUserIfValidCode(String code) {
+		try {
+			String validCode = this.codeService.getCode();
+
+			if (validCode.equals(code)) {
+				User savedUser = this.codeService.getUserSave();
+				this.usersRepository.save(savedUser);
+				this.codeService.clean();
+
+				return ResponseEntity.noContent().build();
+			} else {
+				return ResponseEntity.badRequest().body("Invalid code.");
+			}
+
+		} catch (ConstraintViolationException e) {
+			String violationMessage = this.validationsService.extractMessageFromConstraintViolationException(e);
+
+			return ResponseEntity.badRequest().body(violationMessage);
+		}
+
 	}
 
 	public ResponseEntity<?> signIn(SignInDto signInDto) {

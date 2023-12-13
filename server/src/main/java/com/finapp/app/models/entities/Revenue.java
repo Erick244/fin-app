@@ -83,11 +83,11 @@ public class Revenue {
 		this.amount = amount;
 	}
 
-	public boolean isPaid() {
+	public boolean getIsPaid() {
 		return isPaid;
 	}
 
-	public void setPaid(boolean isPaid) {
+	public void setIsPaid(boolean isPaid) {
 		this.isPaid = isPaid;
 	}
 

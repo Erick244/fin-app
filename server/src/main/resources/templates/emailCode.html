@@ -2,10 +2,73 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
-        <title>Email de Verificação</title>
+        <title>FinApp Verification Code</title>
     </head>
     <body>
-        <h1 class="bg-blue-500">Código de Verificação</h1>
-        <p>Seu código de verificação é: <strong>{{code}}</strong></p>
+        <table
+            width="100%"
+            height="100%"
+            style="
+                background-color: #000;
+                color: #fff;
+                font-family: Arial, sans-serif;
+            "
+        >
+            <tr>
+                <td align="center" valign="middle">
+                    <a
+                        href="http://localhost:3000"
+                        style="text-decoration: none; color: #000"
+                    >
+                        <table>
+                            <tr>
+                                <td
+                                    bgcolor="#ffffff"
+                                    style="padding: 5px; border-radius: 5px"
+                                >
+                                    <span
+                                        style="
+                                            font-size: 50px;
+                                            margin-bottom: 10px;
+                                        "
+                                        >Fin</span
+                                    >
+                                </td>
+                                <td
+                                    style="
+                                        font-size: 30px;
+                                        padding-left: 10px;
+                                        padding-top: 10px;
+                                    "
+                                >
+                                    <span style="color: #fff">App</span>
+                                </td>
+                            </tr>
+                        </table>
+                    </a>
+                    <h1 style="font-size: 24px; font-weight: bold">
+                        Verification Code
+                    </h1>
+                    <p style="color: #a0a0a0">
+                        Use this code to validate your email.
+                    </p>
+                    <p style="font-size: 24px; margin: 30px 0">
+                        <strong
+                            style="
+                                color: #fff;
+                                letter-spacing: 10px;
+                                border: 2px solid #fff;
+                                padding: 5px;
+                                border-radius: 5px;
+                            "
+                            >{{code}}</strong
+                        >
+                    </p>
+                    <p style="color: #a0a0a0">
+                        Do not share this code with others. Single-use.
+                    </p>
+                </td>
+            </tr>
+        </table>
     </body>
 </html>
