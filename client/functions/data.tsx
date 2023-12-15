@@ -1,3 +1,4 @@
+import { SpendingChartData } from "@/models/SpendingChartData";
 import { format } from "date-fns";
 
 export function extractSimpleDateFromIsoDate(isoDate: Date | null) {
@@ -18,4 +19,20 @@ export function extractFormatedDateFromIsoDate(isoDate: Date | null) {
         extractSimpleDateFromIsoDate(isoDate) || new Date(isoDate),
         "PPP"
     );
+}
+
+export function transformSpendingAmountToRealValue(data: SpendingChartData[]) {
+    return data.map((spending) => {
+        spending.Bigger /= 1000;
+        spending.Lower /= 1000;
+
+        return spending;
+    });
+}
+
+export function formatAmountToDollar(amount: number) {
+    return new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+    }).format(amount);
 }

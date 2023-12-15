@@ -52,3 +52,17 @@ export async function patchData<R>(
         throw getAxiosEsxceptionMessage(e);
     }
 }
+
+export async function deleteData<R>(
+    url: string,
+    config?: AxiosRequestConfig
+): Promise<R> {
+    try {
+        const req = await axios.delete(url, config);
+        const data = await req.data;
+
+        return data;
+    } catch (e: any) {
+        throw getAxiosEsxceptionMessage(e);
+    }
+}

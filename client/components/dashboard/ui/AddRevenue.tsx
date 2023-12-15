@@ -5,8 +5,8 @@ import { CreateRevenueForm } from "../forms/CreateRevenueForm";
 export function AddRevenue() {
     return (
         <Dialog>
-            <DialogTrigger className="transition-all duration-300 flex-shrink-0 group bg-foreground text-background py-2.5 px-4 rounded">
-                <Plus className="group-hover:rotate-90" />
+            <DialogTrigger className="flex-shrink-0 group bg-foreground text-background py-2.5 px-4 rounded">
+                <Plus className="transition-all duration-150 group-hover:rotate-90" />
             </DialogTrigger>
             <DialogContent>
                 <div className="space-y-7">

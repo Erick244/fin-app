@@ -1,5 +1,6 @@
 "use client";
 
+import { UserProfileSkeleton } from "@/components/skeletons/components/UserProfileSkeleton";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -10,20 +11,21 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useAuthContext } from "@/contexts/auth/AuthContext";
 import { LogOut, UserIcon } from "lucide-react";
-import { LogOutDialog } from "./dialogs/LogOutDialog";
-import { UserProfile } from "./user/UserProfile";
+import { HTMLAttributes } from "react";
+import { LogOutDialog } from "../dialogs/LogOutDialog";
+import { UserProfile } from "./UserProfile";
 
-export function UserProfileDropDown() {
+export function UserProfileDropDown(props: HTMLAttributes<HTMLElement>) {
     const { user, logOut } = useAuthContext();
 
-    if (!user) return <p>Loading....</p>; // TODO: Skeleton
+    if (!user) return <UserProfileSkeleton />;
 
     return (
         <DropdownMenu modal={false}>
-            <DropdownMenuTrigger>
+            <DropdownMenuTrigger {...props}>
                 <UserProfile {...user} />
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-20 sm:w-60">
+            <DropdownMenuContent className="w-auto">
                 <DropdownMenuLabel className="whitespace-nowrap overflow-hidden text-ellipsis text-xs sm:text-sm">
                     {user.email}
                 </DropdownMenuLabel>

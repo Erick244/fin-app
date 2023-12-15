@@ -111,8 +111,3 @@
     @apply bg-foreground;
     border-radius: 5px;
 }
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-    @apply bg-secondary;
-}

@@ -6,8 +6,8 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
-import { Trash } from "lucide-react";
 import { HTMLAttributes } from "react";
+import { DeleteRevenueButton } from "./ui/DeleteRevenueButton";
 
 interface DeleteRevenueDialogProps extends HTMLAttributes<HTMLElement> {
     children: React.ReactNode;
@@ -41,13 +41,7 @@ export function DeleteRevenueDialog({
                                 Close
                             </Button>
                         </DialogClose>
-                        <Button
-                            type="submit"
-                            variant="destructive"
-                            className="flex items-center gap-2"
-                        >
-                            <span>Delete</span> <Trash className="w-4 h-4" />
-                        </Button>
+                        <DeleteRevenueButton revenueId={revenueId} />
                     </div>
                 </div>
             </DialogContent>

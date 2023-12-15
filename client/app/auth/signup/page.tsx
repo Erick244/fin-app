@@ -2,6 +2,11 @@ import { SignUpForm } from "@/components/auth/forms/SignUpForm";
 import { SwitchAuthButton } from "@/components/auth/ui/SwitchAuthButton";
 import { notExistCookieOrRedirect } from "@/functions/server-cookies";
 import { AUTH_TOKEN_NAME, VERIFY_COOKIE_NAME } from "@/utils/constants";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Sign Up",
+};
 
 export default function Page() {
     notExistCookieOrRedirect(AUTH_TOKEN_NAME, "/dashboard");

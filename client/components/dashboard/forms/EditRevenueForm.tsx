@@ -56,12 +56,13 @@ export function EditRevenueForm({ revenue }: EditRevenueFormProps) {
 
     async function onSubmit(data: EditRevenueData) {
         try {
-            await patchData(`/revenues/edit/${revenue.id}`, data);
+            const revenueId = revenue.id;
+            await patchData(`/revenues/edit/${revenueId}`, data);
 
             router.refresh();
             toast({
                 title: "Success",
-                description: `Revenue - ${revenue.id} edited.`,
+                description: `RVN${revenueId} edited.`,
                 duration: 2000,
             });
         } catch (e: any) {

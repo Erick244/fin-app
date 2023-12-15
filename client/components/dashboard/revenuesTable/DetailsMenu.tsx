@@ -14,7 +14,6 @@ import {
 import { Revenue } from "@/models/Revenue";
 import {
     Calendar,
-    CircleDollarSign,
     Delete,
     Edit,
     MessageSquare,
@@ -23,7 +22,6 @@ import {
 } from "lucide-react";
 import { DeleteRevenueDialog } from "./dialogs/DeleteRevenueDialog";
 import { EditRevenueDialog } from "./dialogs/EditRevenueDialog";
-import { PayRevenueDialog } from "./dialogs/PayRevenueDialog";
 
 interface DetailsMenuProps {
     label: string;
@@ -40,17 +38,20 @@ export function DetailsMenu({ label, revenue }: DetailsMenuProps) {
                 <DropdownMenuLabel>{label}</DropdownMenuLabel>
                 <DropdownMenuSeparator />
 
-                <EditRevenueDialog revenue={revenue} title={label}>
+                <EditRevenueDialog
+                    revenue={revenue}
+                    title={`${label} - Details`}
+                >
                     <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
                         <MessageSquare className="mr-2 h-4 w-4" />
                         <span>Description</span>
                     </DropdownMenuItem>
                 </EditRevenueDialog>
 
-                {revenue.isPaid ? (
+                {revenue.isPaid && (
                     <EditRevenueDialog
                         revenue={revenue}
-                        title={label}
+                        title={`${label} - Details`}
                         className="sm:hidden inline"
                     >
                         <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
@@ -58,16 +59,6 @@ export function DetailsMenu({ label, revenue }: DetailsMenuProps) {
                             <span>Date</span>
                         </DropdownMenuItem>
                     </EditRevenueDialog>
-                ) : (
-                    <PayRevenueDialog
-                        revenueId={revenue.id}
-                        title={`Pay - ${label}`}
-                    >
-                        <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                            <CircleDollarSign className="mr-2 h-4 w-4" />
-                            <span>Pay</span>
-                        </DropdownMenuItem>
-                    </PayRevenueDialog>
                 )}
 
                 <DropdownMenuSeparator />

@@ -1,10 +1,14 @@
 import { SpendingBarChartWrapper } from "@/components/dashboard/charts/SpendingBarChartWrapper";
 import { RevenueDataTable } from "@/components/dashboard/revenuesTable/RevenueDataTable";
+import { RevenuesTablePagination } from "@/components/dashboard/revenuesTable/revenuesTablePagination";
 import { TableSearch } from "@/components/dashboard/revenuesTable/search/TableSearch";
 import { AddRevenue } from "@/components/dashboard/ui/AddRevenue";
 import { SpendingInformations } from "@/components/dashboard/ui/SpendingInformations";
 import { RevenuesTableSkeleton } from "@/components/skeletons/components/RevenuesTableSkeleton";
+import { SpendingInformationsSkeleton } from "@/components/skeletons/components/SpendingInformationsSkeleton";
+import { Spinner } from "@/components/ui/spinner";
 import { existCookieOrRedirect } from "@/functions/server-cookies";
+import { PageProps } from "@/models/PageProps";
 import { AUTH_TOKEN_NAME } from "@/utils/constants";
 import { Metadata } from "next";
 import { Suspense } from "react";
@@ -13,7 +17,7 @@ export const metadata: Metadata = {
     title: "Dashboard",
 };
 
-export default function Page() {
+export default function Page({ searchParams }: PageProps) {
     existCookieOrRedirect(AUTH_TOKEN_NAME, "/auth");
 
     return (
@@ -24,12 +28,17 @@ export default function Page() {
                     <AddRevenue />
                 </div>
                 <Suspense fallback={<RevenuesTableSkeleton />}>
-                    <RevenueDataTable />
+                    <RevenueDataTable page={Number(searchParams.page)} />
                 </Suspense>
+                <RevenuesTablePagination searchParams={searchParams} />
             </div>
             <div className="w-full lg:w-11/12 h-1/2 flex justify-between items-center ms:gap-10 gap-28 lg:flex-row flex-col">
-                <SpendingBarChartWrapper />
-                <SpendingInformations />
+                <Suspense fallback={<Spinner className="w-10 h-10" />}>
+                    <SpendingBarChartWrapper />
+                </Suspense>
+                <Suspense fallback={<SpendingInformationsSkeleton />}>
+                    <SpendingInformations />
+                </Suspense>
             </div>
         </div>
     );

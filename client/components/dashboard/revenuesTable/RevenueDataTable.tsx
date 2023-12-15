@@ -1,23 +1,22 @@
 import { getData } from "@/functions/api";
-import { cn } from "@/lib/utils";
 import { Revenue } from "@/models/Revenue";
-import { HTMLAttributes } from "react";
+import { ITEMS_PER_PAGE } from "@/utils/constants";
 import { TBody } from "./TBody";
 import { Thead } from "./Thead";
 
-export async function RevenueDataTable(
-    props: HTMLAttributes<HTMLTableElement>
-) {
-    const data = await getData<Revenue[]>("/revenues");
+interface RevenueDataTableProps {
+    page: number;
+}
+
+export async function RevenueDataTable({ page = 0 }: RevenueDataTableProps) {
+    const currentPage = page > 0 ? page - 1 : 0;
+
+    const data = await getData<Revenue[]>(
+        `/revenues?page=${currentPage}&take=${ITEMS_PER_PAGE}`
+    );
 
     return (
-        <table
-            {...props}
-            className={cn(
-                "w-full table-fixed border-collapse border-2 border-border",
-                props.className
-            )}
-        >
+        <table className="w-full table-fixed border-collapse border-2 border-border">
             <Thead />
             <TBody data={data} />
         </table>

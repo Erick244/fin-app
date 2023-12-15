@@ -34,37 +34,7 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
 export function CreateRevenueForm() {
-    const form = useForm<CreateRevenueData>({
-        resolver: zodResolver(createRevenueFormSchema),
-        defaultValues: {
-            amount: 0,
-            description: "",
-            isPaid: false,
-            transactionDate: null,
-        },
-    });
-
-    const router = useRouter();
-
-    async function onSubmit(data: CreateRevenueData) {
-        try {
-            await postData("/revenues", data);
-
-            router.refresh();
-            toast({
-                title: "Success",
-                description: "Revenue created.",
-                duration: 2000,
-            });
-        } catch (e: any) {
-            toast({
-                title: String(e.message),
-                variant: "destructive",
-            });
-        }
-    }
-
-    const isSubmitting = form.formState.isSubmitting;
+    const { form, isSubmitting, onSubmit } = useCreateRevenueForm();
 
     return (
         <Form {...form}>
@@ -195,6 +165,46 @@ export function CreateRevenueForm() {
             </form>
         </Form>
     );
+}
+
+function useCreateRevenueForm() {
+    const form = useForm<CreateRevenueData>({
+        resolver: zodResolver(createRevenueFormSchema),
+        defaultValues: {
+            amount: 0,
+            description: "",
+            isPaid: false,
+            transactionDate: null,
+        },
+    });
+
+    const router = useRouter();
+
+    async function onSubmit(data: CreateRevenueData) {
+        try {
+            await postData("/revenues", data);
+
+            router.refresh();
+            toast({
+                title: "Success",
+                description: "Revenue created.",
+                duration: 2000,
+            });
+        } catch (e: any) {
+            toast({
+                title: String(e.message),
+                variant: "destructive",
+            });
+        }
+    }
+
+    const isSubmitting = form.formState.isSubmitting;
+
+    return {
+        form,
+        onSubmit,
+        isSubmitting,
+    };
 }
 
 function disableCalender(date: Date) {

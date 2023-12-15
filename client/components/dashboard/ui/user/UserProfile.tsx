@@ -12,7 +12,7 @@ export function UserProfile({ name, email }: UserProfileProps) {
             <Avatar className="border-2 border-border">
                 <UserGravatar email={email ? email : name} />
             </Avatar>
-            <div className="whitespace-nowrap overflow-hidden text-ellipsis w-20 sm:max-w-md text-left">
+            <div className="whitespace-nowrap overflow-hidden text-ellipsis w-full sm:max-w-md text-left">
                 {name}
             </div>
         </div>

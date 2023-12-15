@@ -1,4 +1,5 @@
 import { getData } from "@/functions/api";
+import { transformSpendingAmountToRealValue } from "@/functions/data";
 import { SpendingChartData } from "@/models/SpendingChartData";
 import { HTMLAttributes } from "react";
 import { SpendingBarChart } from "./SpendingBarChart";
@@ -10,12 +11,10 @@ export async function SpendingBarChartWrapper(
         "/revenues/sevenMonthsChart"
     );
 
-    const spendingDataFormated = data.map((spending) => {
-        spending.Bigger /= 1000;
-        spending.Lower /= 1000;
-
-        return spending;
-    });
-
-    return <SpendingBarChart data={spendingDataFormated} {...props} />;
+    return (
+        <SpendingBarChart
+            data={transformSpendingAmountToRealValue(data)}
+            {...props}
+        />
+    );
 }

@@ -1,4 +1,7 @@
-import { extractFormatedDateFromIsoDate } from "@/functions/data";
+import {
+    extractFormatedDateFromIsoDate,
+    formatAmountToDollar,
+} from "@/functions/data";
 import { Revenue } from "@/models/Revenue";
 import { CircleDollarSign, Clock } from "lucide-react";
 import { DetailsMenu } from "./DetailsMenu";
@@ -14,11 +17,7 @@ export function TBody({ data }: TBodyProps) {
                 data.map((revenue) => {
                     const revenueTableId = "RVN" + revenue.id;
 
-                    const amountInDolarValue = revenue.amount / 1000;
-                    const amount = new Intl.NumberFormat("en-US", {
-                        style: "currency",
-                        currency: "USD",
-                    }).format(amountInDolarValue);
+                    const amount = formatAmountToDollar(revenue.amount / 1000);
 
                     const status = revenue.isPaid ? (
                         <PaidStatus />

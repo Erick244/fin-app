@@ -26,6 +26,7 @@ export function HomeLayout({ children }: HomeLayoutProps) {
                     <ToggleMobileMenuButton />
                 </div>
             </Header.Root>
+
             <MobileMenu>
                 <NavItems />
                 <GettingStartedButton className="py-6" />

@@ -6,58 +6,77 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
+import { getData } from "@/functions/api";
+import { formatAmountToDollar } from "@/functions/data";
 import { cn } from "@/lib/utils";
-import { Minus, TrendingDown, TrendingUp } from "lucide-react";
+import { SpendingInformations } from "@/models/SpendingInformations";
+import {
+    BarChart,
+    Minus,
+    TrendingDown,
+    TrendingUp,
+    Wallet,
+} from "lucide-react";
 import { HTMLAttributes } from "react";
 
 const cardsHeader = {
-    biggestExpense: {
-        description: "This number is based on all your paid revenue.",
-        title: "Biggest Expense",
+    biggestMonthRevenue: {
+        description:
+            "This number is based on all of your paid revenue in the current month.",
+        title: "Biggest Month Revenue",
     },
-    loweExpense: {
-        description: "This number is based on all your paid revenue.",
-        title: "Lower Expense",
+    totalMonthRevenue: {
+        description:
+            "This number is based on all of your paid revenue in the current month.",
+        title: "Total Month Revenue",
     },
     averageSpending: {
         description: "This number is based on expenses per month.",
         title: "Average Spending",
     },
-    trotalExpenses: {
-        description: "This number is based on the last seven months.",
-        title: "Total Expenses",
+    totalRevenues: {
+        description: "This number is based on all of your paid revenues.",
+        title: "Total Revenues",
     },
 };
 
-export function SpendingInformations(props: HTMLAttributes<HTMLDivElement>) {
-    const biggestExpenseHeader = cardsHeader.biggestExpense;
-    const loweExpenseHeader = cardsHeader.loweExpense;
+export async function SpendingInformations(
+    props: HTMLAttributes<HTMLDivElement>
+) {
+    const spendingInformations = await getData<SpendingInformations>(
+        "/revenues/spendingInformations"
+    );
+
+    const biggestMonthRevenueHeader = cardsHeader.biggestMonthRevenue;
+    const totalMonthRevenueHeader = cardsHeader.totalMonthRevenue;
     const averageSpendingHeader = cardsHeader.averageSpending;
-    const trotalExpensesHeader = cardsHeader.trotalExpenses;
+    const totalRevenuesHeader = cardsHeader.totalRevenues;
 
     return (
         <div {...props} className={cn("h-full w-full", props.className)}>
             <h1 className="sm:text-4xl text-3xl text-center mb-6">Spending</h1>
             <div className="grid md:grid-cols-2 grid-cols-1 gap-10 border-2 border-border p-4 rounded-lg">
                 <SpendingCard
-                    {...biggestExpenseHeader}
-                    spending={11.99}
-                    latestSpending={20.22}
+                    {...biggestMonthRevenueHeader}
+                    spending={spendingInformations.biggestMonthRevenue / 1000}
+                    latestSpending={
+                        spendingInformations.biggestLatestMonthRevenue / 1000
+                    }
                 />
                 <SpendingCard
-                    {...loweExpenseHeader}
-                    spending={1.99}
-                    latestSpending={0.52}
+                    {...totalMonthRevenueHeader}
+                    spending={spendingInformations.totalMonthRevenue / 1000}
+                    latestSpending={
+                        spendingInformations.totalLatestMonthRevenue / 1000
+                    }
                 />
                 <SpendingCard
                     {...averageSpendingHeader}
-                    spending={1456.99}
-                    latestSpending={1334.52}
+                    spending={spendingInformations.averageSpending / 1000}
                 />
                 <SpendingCard
-                    {...trotalExpensesHeader}
-                    spending={1456.99}
-                    latestSpending={1456.99}
+                    {...totalRevenuesHeader}
+                    spending={spendingInformations.totalRevenues / 1000}
                 />
             </div>
         </div>
@@ -65,7 +84,7 @@ export function SpendingInformations(props: HTMLAttributes<HTMLDivElement>) {
 }
 
 interface SpendingCardProps {
-    latestSpending: number;
+    latestSpending?: number;
     spending: number;
     title: string;
     description: string;
@@ -77,16 +96,39 @@ function SpendingCard({
     spending,
     title,
 }: SpendingCardProps) {
-    const spentMore = spending > latestSpending;
-    const spentLess = spending < latestSpending;
+    function cardFooter() {
+        const latestSpendingIsNaN = !latestSpending && latestSpending != 0;
 
-    const Icon = spentMore ? (
-        <TrendingDown className="text-red-500" />
-    ) : spentLess ? (
-        <TrendingUp className="text-green-500" />
-    ) : (
-        <Minus className="text-zinc-500" />
-    );
+        if (latestSpendingIsNaN) {
+            return (
+                <>
+                    <Wallet />
+                    <BarChart />
+                </>
+            );
+        }
+
+        const spentMore = spending > latestSpending;
+        const spentLess = spending < latestSpending;
+
+        const SpendingIcon = spentMore ? (
+            <TrendingDown className="text-red-500" />
+        ) : spentLess ? (
+            <TrendingUp className="text-green-500" />
+        ) : (
+            <Minus className="text-zinc-500" />
+        );
+
+        return (
+            <>
+                <p className="text-sm text-foreground/50">
+                    Latest Month: {formatAmountToDollar(latestSpending)}
+                </p>
+
+                {SpendingIcon}
+            </>
+        );
+    }
 
     return (
         <Card>
@@ -95,13 +137,10 @@ function SpendingCard({
                 <CardDescription>{description}</CardDescription>
             </CardHeader>
             <CardContent>
-                <p className="text-3xl">${spending}</p>
+                <p className="text-3xl">{formatAmountToDollar(spending)}</p>
             </CardContent>
             <CardFooter className="flex justify-between">
-                <p className="text-sm text-foreground/50">
-                    Latest: ${latestSpending}
-                </p>
-                {Icon}
+                {cardFooter()}
             </CardFooter>
         </Card>
     );

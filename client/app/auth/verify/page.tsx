@@ -6,6 +6,11 @@ import {
     notExistCookieOrRedirect,
 } from "@/functions/server-cookies";
 import { AUTH_TOKEN_NAME, VERIFY_COOKIE_NAME } from "@/utils/constants";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Verify",
+};
 
 export default function Page() {
     notExistCookieOrRedirect(AUTH_TOKEN_NAME, "/");
