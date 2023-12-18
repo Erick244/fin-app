@@ -1,18 +1,31 @@
 import { getData } from "@/functions/api";
+import { SearchParams, TargetParam } from "@/models/PageProps";
 import { Revenue } from "@/models/Revenue";
 import { ITEMS_PER_PAGE } from "@/utils/constants";
 import { TBody } from "./TBody";
 import { Thead } from "./Thead";
 
 interface RevenueDataTableProps {
-    page: number;
+    searchParams: SearchParams;
 }
 
-export async function RevenueDataTable({ page = 0 }: RevenueDataTableProps) {
-    const currentPage = page > 0 ? page - 1 : 0;
+export async function RevenueDataTable({
+    searchParams: { page = "0", query = "", target = TargetParam.all },
+}: RevenueDataTableProps) {
+    const numberPage = Number(page);
+    const currentPage = numberPage > 0 ? numberPage - 1 : 0;
+
+    function transformedQuery() {
+        const isNumber = target === TargetParam.amount || !isNaN(Number(query));
+        if (isNumber) {
+            return (Number(query) * 1000).toString();
+        }
+
+        return query;
+    }
 
     const data = await getData<Revenue[]>(
-        `/revenues?page=${currentPage}&take=${ITEMS_PER_PAGE}`
+        `/revenues?page=${currentPage}&take=${ITEMS_PER_PAGE}&query=${transformedQuery()}`
     );
 
     return (

@@ -28,7 +28,7 @@ export default function Page({ searchParams }: PageProps) {
                     <AddRevenue />
                 </div>
                 <Suspense fallback={<RevenuesTableSkeleton />}>
-                    <RevenueDataTable page={Number(searchParams.page)} />
+                    <RevenueDataTable searchParams={searchParams} />
                 </Suspense>
                 <RevenuesTablePagination searchParams={searchParams} />
             </div>

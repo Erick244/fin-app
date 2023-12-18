@@ -12,9 +12,11 @@ interface RevenuesTablePaginationProps {
 export async function RevenuesTablePagination({
     searchParams,
 }: RevenuesTablePaginationProps) {
-    const count = await getData<number>("/revenues/count");
+    const count = await getData<number>(
+        `/revenues/count?query=${searchParams.query ?? ""}`
+    );
 
-    const pagesCount = Math.round(count / ITEMS_PER_PAGE);
+    const pagesCount = Math.ceil(count / ITEMS_PER_PAGE);
     const pages = Array.from({ length: pagesCount }, (_, i) => i + 1);
     const pageParam = Number(searchParams.page);
     const currentPage =
