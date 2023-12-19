@@ -11,6 +11,21 @@ interface DeleteRevenueButtonProps {
 }
 
 export function DeleteRevenueButton({ revenueId }: DeleteRevenueButtonProps) {
+    const { deleteRevenue } = useDeleteRevenue(revenueId);
+
+    return (
+        <Button
+            onClick={deleteRevenue}
+            type="submit"
+            variant="destructive"
+            className="flex items-center gap-2"
+        >
+            <span>Delete</span> <Trash className="w-4 h-4" />
+        </Button>
+    );
+}
+
+function useDeleteRevenue(revenueId: number) {
     const router = useRouter();
 
     async function deleteRevenue() {
@@ -31,14 +46,7 @@ export function DeleteRevenueButton({ revenueId }: DeleteRevenueButtonProps) {
         }
     }
 
-    return (
-        <Button
-            onClick={deleteRevenue}
-            type="submit"
-            variant="destructive"
-            className="flex items-center gap-2"
-        >
-            <span>Delete</span> <Trash className="w-4 h-4" />
-        </Button>
-    );
+    return {
+        deleteRevenue,
+    };
 }

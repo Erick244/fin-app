@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import { HTMLAttributes } from "react";
-import { DeleteRevenueButton } from "./ui/DeleteRevenueButton";
+import { DeleteRevenueButton } from "../ui/DeleteRevenueButton";
 
 interface DeleteRevenueDialogProps extends HTMLAttributes<HTMLElement> {
     children: React.ReactNode;

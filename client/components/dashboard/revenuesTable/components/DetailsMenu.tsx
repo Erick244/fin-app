@@ -20,8 +20,8 @@ import {
     MoreVertical,
     PlusCircle,
 } from "lucide-react";
-import { DeleteRevenueDialog } from "./dialogs/DeleteRevenueDialog";
-import { EditRevenueDialog } from "./dialogs/EditRevenueDialog";
+import { DeleteRevenueDialog } from "../dialogs/components/DeleteRevenueDialog";
+import { EditRevenueDialog } from "../dialogs/components/EditRevenueDialog";
 
 interface DetailsMenuProps {
     label: string;

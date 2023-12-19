@@ -1,3 +1,4 @@
+import { TargetParam } from "@/models/PageProps";
 import { SpendingChartData } from "@/models/SpendingChartData";
 import { format } from "date-fns";
 
@@ -35,4 +36,19 @@ export function formatAmountToDollar(amount: number) {
         style: "currency",
         currency: "USD",
     }).format(amount);
+}
+
+export function transformQueryToNumberCentsValue(query: string) {
+    if (isNaN(Number(query))) return query;
+
+    return (Number(query) * 1000).toString();
+}
+
+export function transformQueryIfTargetIsAmount(
+    target: TargetParam,
+    query: string
+) {
+    return target === TargetParam.amount
+        ? transformQueryToNumberCentsValue(query)
+        : query;
 }

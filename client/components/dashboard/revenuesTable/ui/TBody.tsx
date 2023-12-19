@@ -2,18 +2,21 @@ import {
     extractFormatedDateFromIsoDate,
     formatAmountToDollar,
 } from "@/functions/data";
+import { cn } from "@/lib/utils";
 import { Revenue } from "@/models/Revenue";
-import { CircleDollarSign, Clock } from "lucide-react";
-import { DetailsMenu } from "./DetailsMenu";
+import { CircleDollarSign, Clock, SearchX } from "lucide-react";
+import { DetailsMenu } from "../components/DetailsMenu";
 
 interface TBodyProps {
     data: Revenue[];
 }
 
 export function TBody({ data }: TBodyProps) {
+    const dataIsNotEmpty = data.length > 0;
+
     return (
         <tbody>
-            {data &&
+            {dataIsNotEmpty ? (
                 data.map((revenue) => {
                     const revenueTableId = "RVN" + revenue.id;
 
@@ -51,7 +54,19 @@ export function TBody({ data }: TBodyProps) {
                             </td>
                         </tr>
                     );
-                })}
+                })
+            ) : (
+                <>
+                    <NoResultsRow
+                        colSpan={5}
+                        className="sm:table-cell hidden"
+                    />
+                    <NoResultsRow
+                        colSpan={4}
+                        className="sm:hidden table-cell"
+                    />
+                </>
+            )}
         </tbody>
     );
 }
@@ -71,5 +86,23 @@ function NotPaidStatus() {
             <Clock className="mr-2 h-4 w-4" />
             <span>Not Paid</span>
         </div>
+    );
+}
+
+function NoResultsRow(props: {
+    colSpan: number;
+    className?: string | undefined;
+}) {
+    return (
+        <tr>
+            <td
+                {...props}
+                className={cn("p-44 text-muted-foreground", props.className)}
+                align="center"
+            >
+                <SearchX />
+                <span className="text-sm">No results.</span>
+            </td>
+        </tr>
     );
 }

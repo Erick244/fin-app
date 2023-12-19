@@ -42,37 +42,7 @@ interface EditRevenueFormProps {
 }
 
 export function EditRevenueForm({ revenue }: EditRevenueFormProps) {
-    const form = useForm<EditRevenueData>({
-        resolver: zodResolver(editRevenueFormSchema),
-        defaultValues: {
-            ...revenue,
-            transactionDate:
-                extractSimpleDateFromIsoDate(revenue.transactionDate) || null,
-            amount: revenue.amount / 1000,
-        },
-    });
-
-    const router = useRouter();
-
-    async function onSubmit(data: EditRevenueData) {
-        try {
-            const revenueId = revenue.id;
-            await patchData(`/revenues/edit/${revenueId}`, data);
-
-            router.refresh();
-            toast({
-                title: "Success",
-                description: `RVN${revenueId} edited.`,
-                duration: 2000,
-            });
-        } catch (e: any) {
-            toast({
-                title: String(e.message),
-                variant: "destructive",
-            });
-        }
-    }
-    const isSubmitting = form.formState.isSubmitting;
+    const { form, isSubmitting, onSubmit } = useEditRevenueForm(revenue);
 
     return (
         <Form {...form}>
@@ -205,6 +175,47 @@ export function EditRevenueForm({ revenue }: EditRevenueFormProps) {
             </form>
         </Form>
     );
+}
+
+function useEditRevenueForm(revenue: Revenue) {
+    const form = useForm<EditRevenueData>({
+        resolver: zodResolver(editRevenueFormSchema),
+        defaultValues: {
+            ...revenue,
+            transactionDate:
+                extractSimpleDateFromIsoDate(revenue.transactionDate) || null,
+            amount: revenue.amount / 1000,
+        },
+    });
+
+    const router = useRouter();
+
+    async function onSubmit(data: EditRevenueData) {
+        try {
+            const revenueId = revenue.id;
+            await patchData(`/revenues/edit/${revenueId}`, data);
+
+            router.refresh();
+            toast({
+                title: "Success",
+                description: `RVN${revenueId} edited.`,
+                duration: 2000,
+            });
+        } catch (e: any) {
+            toast({
+                title: String(e.message),
+                variant: "destructive",
+            });
+        }
+    }
+
+    const isSubmitting = form.formState.isSubmitting;
+
+    return {
+        isSubmitting,
+        onSubmit,
+        form,
+    };
 }
 
 function disableCalender(date: Date) {

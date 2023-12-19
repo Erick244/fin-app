@@ -3,8 +3,8 @@
 import { mobileMenuVisibilityAtom } from "@/atoms/VisibilityAtoms";
 import { useVisibilityAtom } from "@/hooks/useVisibilityAtom";
 import { cn } from "@/lib/utils";
-import { Menu } from "../../templates/menu";
-import { CloseArea } from "../../utils/CloseArea";
+import { Menu } from "../../../templates/menu";
+import { CloseArea } from "../../../utils/CloseArea";
 
 interface MobileNavMenuProps {
     children: React.ReactNode;

@@ -2,7 +2,7 @@ import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import { Revenue } from "@/models/Revenue";
 import { HTMLAttributes } from "react";
-import { EditRevenueForm } from "../../forms/EditRevenueForm";
+import { EditRevenueForm } from "../../../forms/EditRevenueForm";
 
 interface EditRevenueDialogProps extends HTMLAttributes<HTMLElement> {
     children: React.ReactNode;

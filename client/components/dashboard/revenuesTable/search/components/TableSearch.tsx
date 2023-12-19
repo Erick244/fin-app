@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import { HTMLAttributes } from "react";
-import { SearchInput } from "./SearchInput";
-import { SearchTargetSelectMenu } from "./SearchTargetSelectMenu";
+import { SearchInput } from "../ui/SearchInput";
+import { SearchTargetSelectMenu } from "../ui/SearchTargetSelectMenu";
 
 export function TableSearch(props: HTMLAttributes<HTMLDivElement>) {
     return (

@@ -6,7 +6,7 @@ import { Spinner } from "@/components/ui/spinner";
 import { useVerifyCodeContext } from "@/contexts/auth/VerifyCodeContext";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ClipboardEvent, KeyboardEvent, useState } from "react";
+import { ClipboardEvent, KeyboardEvent } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
@@ -24,73 +24,15 @@ const emailCodeSchema = z.object({
 type EmailCodeFormData = z.infer<typeof emailCodeSchema>;
 
 export function EmailCodeForm() {
-    const form = useForm<EmailCodeFormData>({
-        resolver: zodResolver(emailCodeSchema),
-        defaultValues: {
-            character1: "",
-            character2: "",
-            character3: "",
-            character4: "",
-            character5: "",
-            character6: "",
-        },
-    });
-
-    const [loading, setLoading] = useState<boolean>(false);
-    const { verifyCode } = useVerifyCodeContext();
-
-    async function onSubmit(data: EmailCodeFormData) {
-        const code = Object.values(data).join("").replace(",", "");
-
-        await verifyCode(code);
-    }
-
-    function onPaste(e: ClipboardEvent<HTMLInputElement>) {
-        form.setFocus("character1");
-
-        const pasteText = e.clipboardData.getData("text");
-        const pasteTextLength = pasteText.length;
-        const inputsLength = 6;
-
-        if (pasteTextLength === inputsLength) {
-            const pasteTextCharacteres = pasteText.split("");
-
-            pasteTextCharacteres.forEach((char, i) => {
-                const currentInputName = `character${i + 1}`;
-                replaceFormValue(currentInputName, char);
-            });
-        }
-    }
-
-    function replaceFormValue(name: string, char: string) {
-        form.setValue(name as any, char);
-    }
-
-    function onKeyUp(e: KeyboardEvent<HTMLInputElement>) {
-        const currentInputId = +e.currentTarget.id;
-        const key = e.key;
-        const isNotTheControlOrEnter =
-            !e.ctrlKey && key != "Control" && key != "Enter";
-
-        if (key === "Backspace") {
-            const isNotTheFirstInput = currentInputId != 1;
-            const previusInputName = `character${currentInputId - 1}`;
-
-            if (isNotTheFirstInput) {
-                form.setFocus(previusInputName as any);
-            }
-        } else if (isNotTheControlOrEnter) {
-            const isNotTheLastInput = currentInputId != 6;
-            const nextInputName = `character${currentInputId + 1}`;
-
-            if (isNotTheLastInput) {
-                form.setFocus(nextInputName as any);
-            }
-        }
-    }
-
-    const OtpInputStyle = "text-center sm:w-14 w-10 text-lg font-bold";
-    const OtpInputErrorStyle = "border-red-600 ring-offset-red-600";
+    const {
+        OtpInputErrorStyle,
+        OtpInputStyle,
+        form,
+        isSubmitting,
+        onKeyUp,
+        onPaste,
+        onSubmit,
+    } = useEmailCodeForm();
 
     return (
         <Form {...form}>
@@ -249,9 +191,90 @@ export function EmailCodeForm() {
                     />
                 </div>
                 <Button type="submit" className="w-full">
-                    {loading ? <Spinner /> : "Submit"}
+                    {isSubmitting ? <Spinner /> : "Submit"}
                 </Button>
             </form>
         </Form>
     );
+}
+
+function useEmailCodeForm() {
+    const form = useForm<EmailCodeFormData>({
+        resolver: zodResolver(emailCodeSchema),
+        defaultValues: {
+            character1: "",
+            character2: "",
+            character3: "",
+            character4: "",
+            character5: "",
+            character6: "",
+        },
+    });
+
+    const { verifyCode } = useVerifyCodeContext();
+
+    async function onSubmit(data: EmailCodeFormData) {
+        const code = Object.values(data).join("").replace(",", "");
+
+        await verifyCode(code);
+    }
+
+    function onPaste(e: ClipboardEvent<HTMLInputElement>) {
+        form.setFocus("character1");
+
+        const pasteText = e.clipboardData.getData("text");
+        const pasteTextLength = pasteText.length;
+        const inputsLength = 6;
+
+        if (pasteTextLength === inputsLength) {
+            const pasteTextCharacteres = pasteText.split("");
+
+            pasteTextCharacteres.forEach((char, i) => {
+                const currentInputName = `character${i + 1}`;
+                replaceFormValue(currentInputName, char);
+            });
+        }
+    }
+
+    function replaceFormValue(name: string, char: string) {
+        form.setValue(name as any, char);
+    }
+
+    function onKeyUp(e: KeyboardEvent<HTMLInputElement>) {
+        const currentInputId = +e.currentTarget.id;
+        const key = e.key;
+        const isNotTheControlOrEnter =
+            !e.ctrlKey && key != "Control" && key != "Enter";
+
+        if (key === "Backspace") {
+            const isNotTheFirstInput = currentInputId != 1;
+            const previusInputName = `character${currentInputId - 1}`;
+
+            if (isNotTheFirstInput) {
+                form.setFocus(previusInputName as any);
+            }
+        } else if (isNotTheControlOrEnter) {
+            const isNotTheLastInput = currentInputId != 6;
+            const nextInputName = `character${currentInputId + 1}`;
+
+            if (isNotTheLastInput) {
+                form.setFocus(nextInputName as any);
+            }
+        }
+    }
+
+    const OtpInputStyle = "text-center sm:w-14 w-10 text-lg font-bold";
+    const OtpInputErrorStyle = "border-red-600 ring-offset-red-600";
+
+    const isSubmitting = form.formState.isSubmitting;
+
+    return {
+        isSubmitting,
+        OtpInputErrorStyle,
+        OtpInputStyle,
+        onKeyUp,
+        onPaste,
+        onSubmit,
+        form,
+    };
 }

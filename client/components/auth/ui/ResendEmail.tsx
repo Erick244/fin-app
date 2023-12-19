@@ -7,25 +7,12 @@ import { useTimer } from "@/hooks/useTimer";
 import { HTMLAttributes, useState } from "react";
 
 export function ResendEmail(props: HTMLAttributes<HTMLButtonElement>) {
-    const startTime = 30;
-    const endTime = 0;
-    const { time, isCompleted, resetTimer } = useTimer(startTime, endTime);
-
-    const [loading, setLoading] = useState<boolean>(false);
-    const { cancelVerification, resendEmail } = useVerifyCodeContext();
-
-    const isNotCompleted = !isCompleted;
-
-    async function onClick() {
-        setLoading(true);
-        await resendEmail();
-        resetTimer();
-        setLoading(false);
-    }
+    const { isNotCompleted, loading, resend, time, isCompleted } =
+        useResendEmail();
 
     return (
         <Button
-            onClick={onClick}
+            onClick={resend}
             disabled={isNotCompleted}
             variant={isCompleted ? "outline" : "ghost"}
             {...props}
@@ -39,4 +26,30 @@ export function ResendEmail(props: HTMLAttributes<HTMLButtonElement>) {
             )}
         </Button>
     );
+}
+
+function useResendEmail() {
+    const startTime = 30;
+    const endTime = 0;
+    const { time, isCompleted, resetTimer } = useTimer(startTime, endTime);
+
+    const [loading, setLoading] = useState<boolean>(false);
+    const { resendEmail } = useVerifyCodeContext();
+
+    const isNotCompleted = !isCompleted;
+
+    async function resend() {
+        setLoading(true);
+        await resendEmail();
+        resetTimer();
+        setLoading(false);
+    }
+
+    return {
+        isNotCompleted,
+        time,
+        loading,
+        resend,
+        isCompleted,
+    };
 }

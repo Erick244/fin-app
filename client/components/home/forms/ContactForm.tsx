@@ -12,30 +12,12 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { ContactFormData, contactFormSchema } from "@/schemas/Contact.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { HTMLAttributes } from "react";
 import { useForm } from "react-hook-form";
-import * as z from "zod";
 
-const contactFormSchema = z.object({
-    email: z.string().email(),
-    message: z.string().min(10).max(250),
-});
-
-type ContactFormData = z.infer<typeof contactFormSchema>;
-
-export function ContactForm(props: HTMLAttributes<HTMLFormElement>) {
-    const form = useForm<ContactFormData>({
-        resolver: zodResolver(contactFormSchema),
-        defaultValues: {
-            email: "",
-            message: "",
-        },
-    });
-
-    function onSubmit(data: ContactFormData) {
-        console.log(data);
-    }
+export function ContactForm() {
+    const { form, onSubmit } = useContatctForm();
 
     return (
         <Form {...form}>
@@ -82,4 +64,23 @@ export function ContactForm(props: HTMLAttributes<HTMLFormElement>) {
             </form>
         </Form>
     );
+}
+
+function useContatctForm() {
+    const form = useForm<ContactFormData>({
+        resolver: zodResolver(contactFormSchema),
+        defaultValues: {
+            email: "",
+            message: "",
+        },
+    });
+
+    function onSubmit(data: ContactFormData) {
+        console.log(data);
+    }
+
+    return {
+        form,
+        onSubmit,
+    };
 }

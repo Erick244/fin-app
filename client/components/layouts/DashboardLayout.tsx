@@ -1,7 +1,7 @@
 import { RefreshDataButton } from "../dashboard/ui/RefreshDataButton";
-import { UserProfileDropDown } from "../dashboard/ui/user/UserProfileDropDown";
-import { MobileMenu } from "../home/mobileMenu/MobileNavMenu";
-import { ToggleMobileMenuButton } from "../home/mobileMenu/ToggleMobileMenuButton";
+import { UserProfileDropDown } from "../dashboard/user/components/UserProfileDropDown";
+import { MobileMenu } from "../home/mobileMenu/components/MobileNavMenu";
+import { ToggleMobileMenuButton } from "../home/mobileMenu/ui/ToggleMobileMenuButton";
 import { Header } from "../templates/header";
 import { FinAppLogo } from "../utils/FinAppLogo";
 import { ModeToggle } from "../utils/ModeToggle";

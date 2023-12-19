@@ -12,7 +12,7 @@ import {
 import { useAuthContext } from "@/contexts/auth/AuthContext";
 import { LogOut, UserIcon } from "lucide-react";
 import { HTMLAttributes } from "react";
-import { LogOutDialog } from "../dialogs/LogOutDialog";
+import { LogOutDialog } from "../../ui/dialogs/LogOutDialog";
 import { UserProfile } from "./UserProfile";
 
 export function UserProfileDropDown(props: HTMLAttributes<HTMLElement>) {

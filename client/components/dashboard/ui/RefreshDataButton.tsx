@@ -9,10 +9,26 @@ import { useRouter } from "next/navigation";
 import { HTMLAttributes } from "react";
 
 export function RefreshDataButton(props: HTMLAttributes<HTMLButtonElement>) {
+    const { isCompleted, refresh } = useRefreshDataButton();
+
+    return (
+        <Button
+            {...props}
+            onClick={refresh}
+            size={"icon"}
+            disabled={!isCompleted}
+            className={cn("group", props.className)}
+        >
+            <RefreshCcw className="transition-all duration-300 group-hover:-rotate-180" />
+        </Button>
+    );
+}
+
+function useRefreshDataButton() {
     const router = useRouter();
     const { isCompleted, resetTimer } = useTimer(10, 0);
 
-    function onClick() {
+    function refresh() {
         if (!isCompleted) return;
 
         router.refresh();
@@ -23,15 +39,8 @@ export function RefreshDataButton(props: HTMLAttributes<HTMLButtonElement>) {
         resetTimer();
     }
 
-    return (
-        <Button
-            {...props}
-            onClick={onClick}
-            size={"icon"}
-            disabled={!isCompleted}
-            className={cn("group", props.className)}
-        >
-            <RefreshCcw className="transition-all duration-300 group-hover:-rotate-180" />
-        </Button>
-    );
+    return {
+        refresh,
+        isCompleted,
+    };
 }

@@ -13,28 +13,10 @@ import { Spinner } from "@/components/ui/spinner";
 import { useAuthContext } from "@/contexts/auth/AuthContext";
 import { SignUpFormData, signUpFormSchema } from "@/schemas/SignUp.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 export function SignUpForm() {
-    const form = useForm<SignUpFormData>({
-        resolver: zodResolver(signUpFormSchema),
-        defaultValues: {
-            name: "",
-            email: "",
-            confirmPassword: "",
-            password: "",
-        },
-    });
-
-    const [loading, setLoading] = useState<boolean>(false);
-    const { signUp } = useAuthContext();
-
-    async function onSubmit(data: SignUpFormData) {
-        setLoading(true);
-        await signUp(data);
-        setLoading(false);
-    }
+    const { form, isSubmitting, onSubmit } = useSignUpForm();
 
     return (
         <Form {...form}>
@@ -113,9 +95,35 @@ export function SignUpForm() {
                 )}
 
                 <Button type="submit" className="w-full">
-                    {loading ? <Spinner /> : "Submit"}
+                    {isSubmitting ? <Spinner /> : "Submit"}
                 </Button>
             </form>
         </Form>
     );
+}
+
+function useSignUpForm() {
+    const form = useForm<SignUpFormData>({
+        resolver: zodResolver(signUpFormSchema),
+        defaultValues: {
+            name: "",
+            email: "",
+            confirmPassword: "",
+            password: "",
+        },
+    });
+
+    const { signUp } = useAuthContext();
+
+    async function onSubmit(data: SignUpFormData) {
+        await signUp(data);
+    }
+
+    const isSubmitting = form.formState.isSubmitting;
+
+    return {
+        form,
+        onSubmit,
+        isSubmitting,
+    };
 }

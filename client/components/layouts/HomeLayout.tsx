@@ -1,5 +1,5 @@
-import { MobileMenu } from "../home/mobileMenu/MobileNavMenu";
-import { ToggleMobileMenuButton } from "../home/mobileMenu/ToggleMobileMenuButton";
+import { MobileMenu } from "../home/mobileMenu/components/MobileNavMenu";
+import { ToggleMobileMenuButton } from "../home/mobileMenu/ui/ToggleMobileMenuButton";
 import { NavItems } from "../home/nav/NavItems";
 import { GettingStartedButton } from "../home/ui/GettingStartedButton";
 import { Header } from "../templates/header";

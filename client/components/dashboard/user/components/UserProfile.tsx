@@ -1,5 +1,5 @@
 import { Avatar } from "@/components/ui/avatar";
-import { UserGravatar } from "./UserGravatar";
+import { UserGravatar } from "../ui/UserGravatar";
 
 interface UserProfileProps {
     name: string;

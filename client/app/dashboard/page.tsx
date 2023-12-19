@@ -1,9 +1,10 @@
 import { SpendingBarChartWrapper } from "@/components/dashboard/charts/SpendingBarChartWrapper";
-import { RevenueDataTable } from "@/components/dashboard/revenuesTable/RevenueDataTable";
-import { RevenuesTablePagination } from "@/components/dashboard/revenuesTable/revenuesTablePagination";
-import { TableSearch } from "@/components/dashboard/revenuesTable/search/TableSearch";
+import { RevenueDataTable } from "@/components/dashboard/revenuesTable/components/RevenueDataTable";
+import { RevenuesTablePagination } from "@/components/dashboard/revenuesTable/pagination/components/RevenuesTablePagination";
+import { TableSearch } from "@/components/dashboard/revenuesTable/search/components/TableSearch";
 import { AddRevenue } from "@/components/dashboard/ui/AddRevenue";
 import { SpendingInformations } from "@/components/dashboard/ui/SpendingInformations";
+import { PaginationSkeleton } from "@/components/skeletons/components/PaginationSkeleton";
 import { RevenuesTableSkeleton } from "@/components/skeletons/components/RevenuesTableSkeleton";
 import { SpendingInformationsSkeleton } from "@/components/skeletons/components/SpendingInformationsSkeleton";
 import { Spinner } from "@/components/ui/spinner";
@@ -28,9 +29,11 @@ export default function Page({ searchParams }: PageProps) {
                     <AddRevenue />
                 </div>
                 <Suspense fallback={<RevenuesTableSkeleton />}>
-                    <RevenueDataTable searchParams={searchParams} />
+                    <RevenueDataTable {...searchParams} />
                 </Suspense>
-                <RevenuesTablePagination searchParams={searchParams} />
+                <Suspense fallback={<PaginationSkeleton />}>
+                    <RevenuesTablePagination {...searchParams} />
+                </Suspense>
             </div>
             <div className="w-full lg:w-11/12 h-1/2 flex justify-between items-center ms:gap-10 gap-28 lg:flex-row flex-col">
                 <Suspense fallback={<Spinner className="w-10 h-10" />}>
