@@ -1,5 +1,5 @@
-import { FeedBackSlider } from "../ui/feedBack/FeedBackSlider";
-import { GettingStartedButton } from "../ui/GettingStartedButton";
+import { GettingStartedButton } from "../../../ui/GettingStartedButton";
+import { FeedBackSlider } from "../ui/FeedBackSlider";
 
 export function FeedBacks() {
     return (

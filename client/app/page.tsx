@@ -1,6 +1,6 @@
 import { About } from "@/components/home/sections/About";
 import { Contact } from "@/components/home/sections/Contact";
-import { FeedBacks } from "@/components/home/sections/FeedBacks";
+import { FeedBacks } from "@/components/home/sections/feedbacks/components/FeedBacks";
 import { Informations } from "@/components/home/sections/Informations";
 import { Introduction } from "@/components/home/sections/Introduction";
 import { DiagonalSeparator } from "@/components/home/ui/DiagonalSeparator";
