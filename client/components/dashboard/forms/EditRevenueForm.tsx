@@ -73,11 +73,11 @@ export function EditRevenueForm({ revenue }: EditRevenueFormProps) {
                             <FormControl>
                                 <RadioGroup
                                     onValueChange={field.onChange}
-                                    defaultValue={field.value}
+                                    defaultValue={String(field.value)}
                                 >
                                     <div className="flex items-center space-x-2">
                                         <RadioGroupItem
-                                            value={false}
+                                            value={"false"}
                                             id="not-paid"
                                         />
                                         <Label htmlFor="not-paid">
@@ -86,7 +86,7 @@ export function EditRevenueForm({ revenue }: EditRevenueFormProps) {
                                     </div>
                                     <div className="flex items-center space-x-2">
                                         <RadioGroupItem
-                                            value={true}
+                                            value={"true"}
                                             id="paid"
                                         />
                                         <Label htmlFor="paid">Paid</Label>

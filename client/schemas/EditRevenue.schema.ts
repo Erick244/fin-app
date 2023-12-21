@@ -15,7 +15,7 @@ export const editRevenueFormSchema = z
             )
             .transform((value) => parseFloat(value) * 1000),
         description: z.string().min(3).max(150),
-        isPaid: z.boolean(),
+        isPaid: z.any().transform((value) => Boolean(value)),
         transactionDate: z.date().nullable(),
     })
     .refine(
