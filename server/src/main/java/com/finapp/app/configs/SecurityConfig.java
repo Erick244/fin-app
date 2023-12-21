@@ -1,6 +1,7 @@
 package com.finapp.app.configs;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -23,6 +24,9 @@ public class SecurityConfig {
 
 	@Autowired
 	private SecurityFilter securityFilter;
+
+	@Value("${frontend.url}")
+	private String frontendUrl;
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -54,7 +58,7 @@ public class SecurityConfig {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
 				registry.addMapping("/**")
-						.allowedOrigins("http://localhost:3000")
+						.allowedOrigins(frontendUrl)
 						.allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH");
 			}
 		};

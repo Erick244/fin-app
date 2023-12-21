@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.finapp.app.models.dto.revenues.CreateRevenueDto;
-import com.finapp.app.models.entities.Revenue;
 import com.finapp.app.services.RevenuesService;
 
 @RestController
@@ -31,9 +30,20 @@ public class RevenueController {
 	}
 
 	@GetMapping
-	public ResponseEntity<Iterable<Revenue>> findAll(@RequestParam(defaultValue = "0") int page,
-			@RequestParam(defaultValue = "5") int take) {
-		return this.revenuesService.findAll(page, take);
+	public ResponseEntity<?> findAll(
+			@RequestParam(defaultValue = "0") int page,
+			@RequestParam(defaultValue = "5") int take,
+			@RequestParam(required = false) String query) {
+
+		if (haveQuery(query)) {
+			return this.revenuesService.findAllBySearch(query, page, take);
+		} else {
+			return this.revenuesService.findAll(page, take);
+		}
+	}
+
+	private Boolean haveQuery(String query) {
+		return query != null && !query.isEmpty();
 	}
 
 	@GetMapping("/sevenMonthsChart")
@@ -59,6 +69,16 @@ public class RevenueController {
 
 	@GetMapping("/spendingInformations")
 	public ResponseEntity<?> spendingInformations() {
-		return this.revenuesService.totalMonthRevenue();
+		return this.revenuesService.spendingInformations();
+	}
+
+	@GetMapping("/count")
+	public ResponseEntity<?> count(@RequestParam(required = false) String query) {
+
+		if (haveQuery(query)) {
+			return this.revenuesService.countBySearch(query);
+		} else {
+			return this.revenuesService.count();
+		}
 	}
 }

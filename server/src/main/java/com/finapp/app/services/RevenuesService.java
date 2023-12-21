@@ -1,11 +1,9 @@
 package com.finapp.app.services;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +15,7 @@ import org.springframework.transaction.TransactionSystemException;
 
 import com.finapp.app.models.dto.revenues.ChartMonthDto;
 import com.finapp.app.models.dto.revenues.CreateRevenueDto;
+import com.finapp.app.models.dto.revenues.SpendingInformationsDto;
 import com.finapp.app.models.entities.Revenue;
 import com.finapp.app.models.entities.User;
 import com.finapp.app.models.repositories.RevenuesRepository;
@@ -59,19 +58,21 @@ public class RevenuesService {
 
 	}
 
-	public ResponseEntity<Iterable<Revenue>> findAll(int page, int take) {
+	public ResponseEntity<List<Revenue>> findAll(int page, int take) {
+		Pageable pageable = createPageable(page, take);
+		List<Revenue> revenues = this.revenuesRepository.findAllByUserId(getUserAuthId(), pageable);
+
+		return ResponseEntity.ok().body(revenues);
+
+	}
+
+	private Pageable createPageable(int page, int take) {
 		if (isInvalidPageableValues(page, take)) {
 			page = 0;
 			take = 5;
 		}
 
-		int userAuthId = this.usersService.getUserAuth().getId();
-		Pageable pageable = PageRequest.of(page, take);
-
-		Iterable<Revenue> revenues = this.revenuesRepository.findAllByUserId(userAuthId, pageable);
-
-		return ResponseEntity.ok().body(revenues);
-
+		return PageRequest.of(page, take);
 	}
 
 	private Boolean isInvalidPageableValues(Integer page, Integer take) {
@@ -82,9 +83,12 @@ public class RevenuesService {
 		return invalidPageValue || invalidTakeValue || emptyValues;
 	}
 
+	private Integer getUserAuthId() {
+		return this.usersService.getUserAuth().getId();
+	}
+
 	public ResponseEntity<?> findById(int revenueId) {
-		int userAuthId = this.usersService.getUserAuth().getId();
-		Revenue revenue = this.revenuesRepository.findByIdAndUserId(revenueId, userAuthId).orElse(null);
+		Revenue revenue = this.revenuesRepository.findByIdAndUserId(revenueId, getUserAuthId()).orElse(null);
 
 		if (revenue != null) {
 			return ResponseEntity.ok().body(revenue);
@@ -99,8 +103,7 @@ public class RevenuesService {
 		}
 
 		try {
-			int userAuthId = this.usersService.getUserAuth().getId();
-			Revenue revenue = this.revenuesRepository.findByIdAndUserId(revenueId, userAuthId).orElse(null);
+			Revenue revenue = this.revenuesRepository.findByIdAndUserId(revenueId, getUserAuthId()).orElse(null);
 
 			if (revenue == null) {
 				return ResponseEntity.notFound().build();
@@ -139,14 +142,12 @@ public class RevenuesService {
 
 	public ResponseEntity<?> sevenMonthsChart() {
 		try {
-			int currentMonth = this.monthService.getCurrentMouth();
-			Integer[] sevenMouths = getSevenMonths(currentMonth);
+			int currentMonth = this.monthService.getCurrentMonth();
+			Integer[] sevenMonths = getSevenMonths(currentMonth);
 
 			List<ChartMonthDto> sevenMonthsChart = new ArrayList<>();
-			for (Integer mouth : sevenMouths) {
-				int userAuthId = this.usersService.getUserAuth().getId();
-
-				List<Revenue> monthRevenues = this.revenuesRepository.findAllByUserIdAndMouth(userAuthId, mouth);
+			for (Integer month : sevenMonths) {
+				List<Revenue> monthRevenues = this.revenuesRepository.findAllByUserIdAndMonth(getUserAuthId(), month);
 
 				Revenue revenueLower = monthRevenues.stream()
 						.min(revenueAmountComparator)
@@ -156,8 +157,8 @@ public class RevenuesService {
 						.max(revenueAmountComparator)
 						.orElse(null);
 
-				String mouthName = this.monthService.getMouthName(mouth);
-				ChartMonthDto chartMonthDto = validAndCreateCharMonthDto(mouthName, revenueBigger, revenueLower);
+				String monthName = this.monthService.getMonthName(month);
+				ChartMonthDto chartMonthDto = validAndCreateCharMonthDto(monthName, revenueBigger, revenueLower);
 
 				sevenMonthsChart.add(chartMonthDto);
 			}
@@ -175,9 +176,9 @@ public class RevenuesService {
 		int twoMonths = 2;
 		int oneMonth = 1;
 
-		sevenMonths[0] = this.monthService.getPreviousMouth(currentMonth, threeMonths);
-		sevenMonths[1] = this.monthService.getPreviousMouth(currentMonth, twoMonths);
-		sevenMonths[2] = this.monthService.getPreviousMouth(currentMonth, oneMonth);
+		sevenMonths[0] = this.monthService.getPreviousMonth(currentMonth, threeMonths);
+		sevenMonths[1] = this.monthService.getPreviousMonth(currentMonth, twoMonths);
+		sevenMonths[2] = this.monthService.getPreviousMonth(currentMonth, oneMonth);
 		sevenMonths[3] = currentMonth;
 		sevenMonths[4] = this.monthService.getNextMonth(currentMonth, oneMonth);
 		sevenMonths[5] = this.monthService.getNextMonth(currentMonth, twoMonths);
@@ -194,20 +195,19 @@ public class RevenuesService {
 		}
 	};
 
-	private ChartMonthDto validAndCreateCharMonthDto(String mouthName, Revenue revenueBigger, Revenue revenueLower) {
+	private ChartMonthDto validAndCreateCharMonthDto(String monthName, Revenue revenueBigger, Revenue revenueLower) {
 
 		if (revenueBigger != null && revenueLower != null) {
-			return new ChartMonthDto(mouthName, revenueBigger.getAmount(), revenueLower.getAmount());
+			return new ChartMonthDto(monthName, revenueBigger.getAmount(), revenueLower.getAmount());
 		}
 
-		return new ChartMonthDto(mouthName, 0L, 0L);
+		return new ChartMonthDto(monthName, 0L, 0L);
 	}
 
 	@Transactional
 	public ResponseEntity<?> delete(int revenueId) {
 		try {
-			int userAuthId = this.usersService.getUserAuth().getId();
-			this.revenuesRepository.deleteByIdAndUserId(revenueId, userAuthId);
+			this.revenuesRepository.deleteByIdAndUserId(revenueId, getUserAuthId());
 
 			return ResponseEntity.ok().build();
 		} catch (Exception e) {
@@ -215,52 +215,101 @@ public class RevenuesService {
 		}
 	}
 
-	public ResponseEntity<?> biggestMonthRevenue() {
+	public ResponseEntity<?> spendingInformations() {
 		try {
-			List<Revenue> currentMouthRevenues = getCurrentMouthRevenues();
+			int currentMonth = this.monthService.getCurrentMonth();
+			int latestMouth = this.monthService.getPreviousMonth(currentMonth, 1);
 
-			Revenue biggerRevenue = currentMouthRevenues.stream().max(revenueAmountComparator).orElse(null);
+			SpendingInformationsDto dto = new SpendingInformationsDto(
+					getBiggestMonthRevenue(currentMonth),
+					getBiggestMonthRevenue(latestMouth),
+					getTotalMonthRevenue(currentMonth),
+					getTotalMonthRevenue(latestMouth),
+					getAvaregeSpendingPerMounth(),
+					getTotalRevenuesAmount());
 
-			if (biggerRevenue == null) {
-				return ResponseEntity.notFound().build();
-			}
-
-			Map<String, Long> biggestMonthRevenueDto = Collections.singletonMap("biggestMonthRevenue",
-					biggerRevenue.getAmount());
-
-			return ResponseEntity.ok().body(biggestMonthRevenueDto);
-
+			return ResponseEntity.ok().body(dto);
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 	}
 
-	private List<Revenue> getCurrentMouthRevenues() {
-		int userAuthId = this.usersService.getUserAuth().getId();
-		int currentMonth = this.monthService.getCurrentMouth();
+	private Long getBiggestMonthRevenue(int month) {
 
-		return this.revenuesRepository.findAllByUserIdAndMouth(userAuthId,
-				currentMonth);
+		List<Revenue> monthRevenues = getMonthRevenues(month);
+
+		Revenue biggerRevenue = monthRevenues.stream().max(revenueAmountComparator).orElse(null);
+
+		if (biggerRevenue == null)
+			return 0L;
+
+		return biggerRevenue.getAmount();
+
 	}
 
-	public ResponseEntity<?> totalMonthRevenue() {
+	private List<Revenue> getMonthRevenues(int month) {
+
+		return this.revenuesRepository.findAllByUserIdAndMonth(getUserAuthId(),
+				month);
+	}
+
+	private Long getTotalMonthRevenue(int month) {
+		List<Revenue> monthRevenues = getMonthRevenues(month);
+
+		Long totalMonthRevenue = monthRevenues.stream().reduce(0l,
+				(acumulator, revenue) -> acumulator + revenue.getAmount(), Long::sum);
+
+		if (totalMonthRevenue == null)
+			return 0L;
+
+		return totalMonthRevenue;
+
+	}
+
+	private Long getAvaregeSpendingPerMounth() {
+		Long totalRevenuesAmount = getTotalRevenuesAmount();
+
+		Long averageSpending = totalRevenuesAmount / 12;
+
+		return averageSpending;
+
+	}
+
+	private Long getTotalRevenuesAmount() {
+		List<Revenue> revenues = this.revenuesRepository.findAllPaidByUserId(getUserAuthId());
+
+		return revenues.stream().reduce(0l, (acumulator, revenue) -> acumulator + revenue.getAmount(), Long::sum);
+	}
+
+	public ResponseEntity<?> countBySearch(String search) {
 		try {
-			List<Revenue> currentMouthRevenues = getCurrentMouthRevenues();
+			Long count = this.revenuesRepository.countByUserIdAndSearch(getUserAuthId(), search);
 
-			Long totalMonthRevenue = currentMouthRevenues.stream().reduce(0l,
-					(acumulator, revenue) -> acumulator + revenue.getAmount(), Long::sum);
-
-			if (totalMonthRevenue == null) {
-				return ResponseEntity.notFound().build();
-			}
-
-			Map<String, Long> totalMonthRevenueDto = Collections.singletonMap("totalMonthRevenue",
-					totalMonthRevenue);
-
-			return ResponseEntity.ok().body(totalMonthRevenueDto);
-
+			return ResponseEntity.ok().body(count);
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
+		}
+	}
+
+	public ResponseEntity<?> count() {
+		try {
+			Long count = this.revenuesRepository.countByUserId(getUserAuthId());
+
+			return ResponseEntity.ok().body(count);
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
+	}
+
+	public ResponseEntity<List<Revenue>> findAllBySearch(String search, int page, int take) {
+		try {
+			Pageable pageable = createPageable(page, take);
+			List<Revenue> revenues = this.revenuesRepository.findAllByUserIdAndSearch(getUserAuthId(), search,
+					pageable);
+
+			return ResponseEntity.ok().body(revenues);
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().build();
 		}
 	}
 

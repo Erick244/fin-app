@@ -12,13 +12,13 @@ public class MonthService {
 	private final int DECEMBER = 12;
 	private final int JANUARY = 1;
 
-	public Integer getCurrentMouth() {
+	public Integer getCurrentMonth() {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(new Date());
 		return calendar.get(Calendar.MONTH) + 1;
 	}
 
-	public int getPreviousMouth(int currentMonth, int monthsAgo) {
+	public int getPreviousMonth(int currentMonth, int monthsAgo) {
 		int previousMonth = currentMonth - monthsAgo;
 		return previousMonth < JANUARY ? (DECEMBER - monthsAgo) + currentMonth
 				: previousMonth;
@@ -31,8 +31,8 @@ public class MonthService {
 				: nextMonth;
 	}
 
-	public String getMouthName(int mouthNumber) {
-		String mouthName = new DateFormatSymbols().getShortMonths()[mouthNumber - 1].replace(".", "").toUpperCase();
-		return mouthName;
+	public String getMonthName(int monthNumber) {
+		String monthName = new DateFormatSymbols().getShortMonths()[monthNumber - 1].replace(".", "").toUpperCase();
+		return monthName;
 	}
 }

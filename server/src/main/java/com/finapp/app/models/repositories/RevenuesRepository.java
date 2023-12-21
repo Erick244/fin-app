@@ -19,11 +19,22 @@ public interface RevenuesRepository
 
 	List<Revenue> findAllByUserId(int userId);
 
+	@Query("SELECT r FROM revenues r WHERE r.user.id = :userId AND r.isPaid = true")
+	List<Revenue> findAllPaidByUserId(@Param("userId") int userId);
+
 	Optional<Revenue> findByIdAndUserId(int revenueId, int userId);
 
 	void deleteByIdAndUserId(int revenueId, int userId);
 
-	@Query("SELECT r FROM revenues r WHERE r.user.id = :userId AND MONTH(r.transactionDate) = :month")
-	List<Revenue> findAllByUserIdAndMouth(@Param("userId") int userId, @Param("month") int month);
+	Long countByUserId(int userId);
 
+	@Query("SELECT r FROM revenues r WHERE r.user.id = :userId AND MONTH(r.transactionDate) = :month")
+	List<Revenue> findAllByUserIdAndMonth(@Param("userId") int userId, @Param("month") int month);
+
+	@Query("SELECT r FROM revenues r WHERE r.user.id = :userId AND (CAST(r.amount AS string) LIKE %:search% OR CAST(r.transactionDate AS string) LIKE %:search% OR CAST(r.description AS string) LIKE %:search% OR CAST(r.id AS string) LIKE :search%)")
+	List<Revenue> findAllByUserIdAndSearch(@Param("userId") int userId, @Param("search") String search,
+			Pageable pageable);
+
+	@Query("SELECT COUNT(r) FROM revenues r WHERE r.user.id = :userId AND (CAST(r.amount AS string) LIKE %:search% OR CAST(r.transactionDate AS string) LIKE %:search% OR CAST(r.description AS string) LIKE %:search% OR CAST(r.id AS string) LIKE :search%)")
+	Long countByUserIdAndSearch(@Param("userId") int userId, @Param("search") String search);
 }

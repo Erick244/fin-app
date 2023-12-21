@@ -15,7 +15,7 @@ import com.auth0.jwt.exceptions.JWTDecodeException;
 @Service
 public class JwtService {
 
-	private final int ONE_MOUTH_IN_SECONDS = 60 * 60 * 60 * 24 * 30;
+	private final int ONE_MONTH_IN_SECONDS = 60 * 60 * 60 * 24 * 30;
 	private final String ISSUER = "fin_app";
 
 	@Value("${jwt.token.secret}")
@@ -24,7 +24,7 @@ public class JwtService {
 	public String generateToken(String email) {
 		try {
 			Algorithm algorithm = this.getAlgorithm();
-			int expiryTime = ONE_MOUTH_IN_SECONDS;
+			int expiryTime = ONE_MONTH_IN_SECONDS;
 
 			String token = JWT.create()
 					.withIssuer(ISSUER)

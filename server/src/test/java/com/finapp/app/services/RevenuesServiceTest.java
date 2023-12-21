@@ -72,10 +72,11 @@ public class RevenuesServiceTest {
 	}
 
 	private void performInViolationException(String violationMessage) {
-		
+
 		when(this.revenuesRepository.save(any(Revenue.class)))
 				.thenThrow(ConstraintViolationException.class);
-		when(this.validationsService.extractMessageFromConstraintViolationException(any(ConstraintViolationException.class)))
+		when(this.validationsService
+				.extractMessageFromConstraintViolationException(any(ConstraintViolationException.class)))
 				.thenReturn(violationMessage);
 	}
 
@@ -171,7 +172,7 @@ public class RevenuesServiceTest {
 
 		performInFindAll(mockRevenues);
 
-		ResponseEntity<Iterable<Revenue>> response = this.revenuesService.findAll(page, take);
+		ResponseEntity<List<Revenue>> response = this.revenuesService.findAll(page, take);
 
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		assertEquals(mockRevenues.size(), 5);
@@ -203,7 +204,7 @@ public class RevenuesServiceTest {
 
 		performInFindAll(mockRevenues);
 
-		ResponseEntity<Iterable<Revenue>> response = this.revenuesService.findAll(page, take);
+		ResponseEntity<List<Revenue>> response = this.revenuesService.findAll(page, take);
 
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		assertEquals(mockRevenues, response.getBody());
@@ -218,7 +219,7 @@ public class RevenuesServiceTest {
 
 		performInFindAll(mockRevenues);
 
-		ResponseEntity<Iterable<Revenue>> response = this.revenuesService.findAll(page, take);
+		ResponseEntity<List<Revenue>> response = this.revenuesService.findAll(page, take);
 
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		assertEquals(mockRevenues, response.getBody());
