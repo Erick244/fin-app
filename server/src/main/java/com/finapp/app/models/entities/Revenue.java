@@ -37,7 +37,7 @@ public class Revenue {
 	private Date transactionDate;
 
 	@AssertFalse(message = RevenueValidationMessages.TRANSACTION_DATE_REQUIRED)
-	private boolean isPaidButNoTransactionDate() {
+	public boolean isPaidButNoTransactionDate() {
 		if (isPaid == null)
 			return false;
 
@@ -45,7 +45,7 @@ public class Revenue {
 	}
 
 	@AssertFalse(message = RevenueValidationMessages.TRANSACTION_DATE_NOT_REQUIRED)
-	private boolean isNotPaidButHaveTransactionDate() {
+	public boolean isNotPaidButHaveTransactionDate() {
 		if (isPaid == null)
 			return false;
 
