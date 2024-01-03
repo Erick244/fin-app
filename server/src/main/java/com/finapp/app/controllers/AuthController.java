@@ -35,8 +35,8 @@ public class AuthController {
 		return this.authService.userByToken(token);
 	}
 
-	@GetMapping("/verifyCode/{code}")
-	public ResponseEntity<?> sendEmail(@PathVariable String code) {
+	@PostMapping("/verifyCode/{code}")
+	public ResponseEntity<?> verifyCode(@PathVariable String code) {
 		return this.authService.createUserIfValidCode(code);
 	}
 
