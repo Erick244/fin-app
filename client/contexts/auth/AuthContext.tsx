@@ -17,6 +17,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 
 interface AuthContextProps {
     user: User | null;
+    signUpUser: SignUpFormData | null;
     login: (data: SignInFormData) => Promise<void>;
     signUp: (data: SignUpFormData) => Promise<void>;
     isAuth: () => boolean;
@@ -33,6 +34,8 @@ export default function AuthContextProvider({
     children: React.ReactNode;
 }) {
     const [user, setUser] = useState<User | null>(null);
+    const [signUpUser, setSignUpUser] = useState<SignUpFormData | null>(null);
+
     const router = useRouter();
 
     async function retrieveUserByToken() {
@@ -59,6 +62,8 @@ export default function AuthContextProvider({
 
     async function login(data: SignInFormData) {
         try {
+            setSignUpUser(null);
+
             const { jwtToken, user } = await postData<UserAndToken>(
                 "/auth/login",
                 data
@@ -79,6 +84,8 @@ export default function AuthContextProvider({
 
     async function signUp(data: SignUpFormData) {
         try {
+            setSignUpUser(data);
+
             await postData("/auth/signup", data);
 
             setClientCookie(VERIFY_COOKIE_NAME, true);
@@ -106,12 +113,14 @@ export default function AuthContextProvider({
         deleteClientCookie(AUTH_TOKEN_NAME);
         setUser(null);
 
-        router.push("/");
+        router.push("/auth");
         router.refresh();
     }
 
     return (
-        <AuthContext.Provider value={{ user, login, signUp, isAuth, logOut }}>
+        <AuthContext.Provider
+            value={{ user, login, signUp, isAuth, logOut, signUpUser }}
+        >
             {children}
         </AuthContext.Provider>
     );

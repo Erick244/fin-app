@@ -137,7 +137,9 @@ function SpendingCard({
                 <CardDescription>{description}</CardDescription>
             </CardHeader>
             <CardContent>
-                <p className="text-3xl">{formatAmountToDollar(spending)}</p>
+                <p className={cn(spending < 1000000 ? "text-3xl" : "text-xl")}>
+                    {formatAmountToDollar(spending)}
+                </p>
             </CardContent>
             <CardFooter className="flex justify-between">
                 {cardFooter()}

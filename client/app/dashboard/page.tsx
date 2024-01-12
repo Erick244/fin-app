@@ -35,7 +35,7 @@ export default function Page({ searchParams }: PageProps) {
                     <RevenuesTablePagination {...searchParams} />
                 </Suspense>
             </div>
-            <div className="w-full lg:w-11/12 h-1/2 flex justify-between items-center ms:gap-10 gap-28 lg:flex-row flex-col">
+            <div className="w-full lg:w-11/12 h-1/2 flex justify-between items-center ms:gap-10 gap-28 xl:flex-row flex-col">
                 <Suspense fallback={<Spinner className="w-10 h-10" />}>
                     <SpendingBarChartWrapper />
                 </Suspense>

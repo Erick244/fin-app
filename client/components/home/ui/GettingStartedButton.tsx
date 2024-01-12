@@ -41,7 +41,7 @@ export function GettingStartedButton({
         >
             {!removeLabel && (
                 <span
-                    className={cn(mobileMode ? "hidden md:inline-block" : "")}
+                    className={cn(mobileMode ? "hidden lg:inline-block" : "")}
                 >
                     Getting Started
                 </span>

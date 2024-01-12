@@ -9,7 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.web.SecurityFilterChain;
 
-import com.finapp.app.configs.SecurityConfig;
+import com.finapp.app.configs.security.SecurityConfig;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class SecurityConfigIntegrationTest {

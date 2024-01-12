@@ -31,6 +31,7 @@ export default function Page() {
                     </span>
                     <div className="h-0.5 w-1/3 bg-secondary" />
                 </div>
+
                 <SwitchAuthButton pushTo="/auth/signup">
                     SignUp
                 </SwitchAuthButton>

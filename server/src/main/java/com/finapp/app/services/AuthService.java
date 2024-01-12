@@ -15,6 +15,7 @@ import com.finapp.app.models.dto.auth.SignInDto;
 import com.finapp.app.models.dto.auth.SignUpDto;
 import com.finapp.app.models.entities.User;
 import com.finapp.app.models.repositories.UsersRepository;
+import com.finapp.app.validations.messages.UserValidationMessages;
 
 import jakarta.validation.ConstraintViolationException;
 
@@ -49,6 +50,10 @@ public class AuthService {
 			}
 
 			String password = signUpDto.password();
+			if (password == null) {
+				return ResponseEntity.badRequest().body(UserValidationMessages.PASSWORD_NOT_NULL);
+			}
+
 			String confirmPassword = signUpDto.confirmPassword();
 			if (passwordsDoNotMatch(password, confirmPassword)) {
 				return ResponseEntity.badRequest().body("Passwords do not match");

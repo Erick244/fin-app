@@ -4,7 +4,10 @@ import { IntroductionChart } from "../ui/IntroductionChart";
 
 export function Introduction() {
     return (
-        <div className="bg-background h-3/4 flex flex-col md:flex-row justify-around items-center">
+        <div
+            id="introduction"
+            className="bg-background h-3/4 flex flex-col md:flex-row justify-around items-center"
+        >
             <IntroductionChart />
             <div className="bg-foreground flex gap-3 flex-col justify-center items-center h-full w-full flex-grow rounded text-primary-foreground">
                 <h1 className="transition-all duration-300 text-center md:text-5xl text-3xl font-semibold p-4 rounded text-primary-foreground">

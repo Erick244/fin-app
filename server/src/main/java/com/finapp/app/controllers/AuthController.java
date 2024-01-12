@@ -2,6 +2,7 @@ package com.finapp.app.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -43,5 +44,11 @@ public class AuthController {
 	@GetMapping("/resendEmail")
 	public ResponseEntity<?> resendEmail() {
 		return this.authService.resendVerifyEmailCode();
+	}
+
+	@GetMapping
+	public ResponseEntity<Object> authUser() {
+		Object user = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		return ResponseEntity.ok(user);
 	}
 }

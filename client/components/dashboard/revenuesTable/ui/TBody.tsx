@@ -5,18 +5,21 @@ import {
 import { cn } from "@/lib/utils";
 import { Revenue } from "@/models/Revenue";
 import { CircleDollarSign, Clock, SearchX } from "lucide-react";
+import { AddRevenue } from "../../ui/AddRevenue";
 import { DetailsMenu } from "../components/DetailsMenu";
 
 interface TBodyProps {
     data: Revenue[];
+    query: string | undefined;
 }
 
-export function TBody({ data }: TBodyProps) {
+export function TBody({ data, query }: TBodyProps) {
     const dataIsNotEmpty = data.length > 0;
+    const dataIsEmpty = !dataIsNotEmpty;
 
     return (
         <tbody>
-            {dataIsNotEmpty ? (
+            {dataIsNotEmpty &&
                 data.map((revenue) => {
                     const revenueTableId = "RVN" + revenue.id;
 
@@ -54,8 +57,8 @@ export function TBody({ data }: TBodyProps) {
                             </td>
                         </tr>
                     );
-                })
-            ) : (
+                })}
+            {dataIsEmpty && query && (
                 <>
                     <NoResultsRow
                         colSpan={5}
@@ -63,7 +66,20 @@ export function TBody({ data }: TBodyProps) {
                     />
                     <NoResultsRow
                         colSpan={4}
-                        className="sm:hidden table-cell"
+                        className="table-cell sm:hidden"
+                    />
+                </>
+            )}
+
+            {dataIsEmpty && !query && (
+                <>
+                    <FirstRevenueRow
+                        colSpan={5}
+                        className="sm:table-cell hidden"
+                    />
+                    <FirstRevenueRow
+                        colSpan={4}
+                        className="table-cell sm:hidden"
                     />
                 </>
             )}
@@ -97,11 +113,31 @@ function NoResultsRow(props: {
         <tr>
             <td
                 {...props}
-                className={cn("p-44 text-muted-foreground", props.className)}
+                className={cn("p-20 text-muted-foreground", props.className)}
                 align="center"
             >
                 <SearchX />
                 <span className="text-sm">No results.</span>
+            </td>
+        </tr>
+    );
+}
+
+function FirstRevenueRow(props: {
+    colSpan: number;
+    className?: string | undefined;
+}) {
+    return (
+        <tr>
+            <td
+                {...props}
+                className={cn("p-20", props.className)}
+                align="center"
+            >
+                <div className="flex flex-col items-center gap-2">
+                    <AddRevenue variant={"outline"} size={"lg"} />
+                    <span className="text-sm">Try creating one revenue.</span>
+                </div>
             </td>
         </tr>
     );

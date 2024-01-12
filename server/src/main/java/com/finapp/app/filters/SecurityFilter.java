@@ -32,6 +32,7 @@ public class SecurityFilter extends OncePerRequestFilter {
 	@Override
 	public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
+
 		try {
 			String authToken = this.extractAuthBearerToken(request);
 
@@ -63,4 +64,5 @@ public class SecurityFilter extends OncePerRequestFilter {
 
 		return authToken.replace("Bearer ", "");
 	}
+
 }

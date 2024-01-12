@@ -15,7 +15,7 @@ const sizeClasses = {
 export function FinAppLogo({ size, ...rest }: FinAppLogoProps) {
     return (
         <Link
-            href={"/"}
+            href={"/#introduction"}
             {...rest}
             className={cn("flex gap-2 select-none", rest.className)}
         >

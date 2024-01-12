@@ -18,7 +18,7 @@ interface SpendingBarChartProps extends HTMLAttributes<HTMLDivElement> {
 
 export function SpendingBarChart({ data, ...rest }: SpendingBarChartProps) {
     return (
-        <div {...rest} className="w-full h-full">
+        <div {...rest} className="w-full lg:w-[80%] xl:w-full h-full">
             <h1 className="sm:text-4xl text-3xl text-center mb-6">
                 Monthly Expenses
             </h1>

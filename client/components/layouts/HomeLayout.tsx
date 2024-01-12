@@ -16,7 +16,7 @@ export function HomeLayout({ children }: HomeLayoutProps) {
         <div className="h-screen w-screen scroll-smooth overflow-x-hidden">
             <Header.Root className=" flex justify-between items-center">
                 <FinAppLogo />
-                <Nav.Root className="hidden sm:flex sm:gap-5 md:gap-10 lg:gap-20">
+                <Nav.Root className="hidden sm:flex sm:gap-5 md:gap-10 lg:gap-20 ">
                     <NavItems />
                 </Nav.Root>
 

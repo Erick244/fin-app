@@ -214,7 +214,7 @@ function useEmailCodeForm() {
     const { verifyCode } = useVerifyCodeContext();
 
     async function onSubmit(data: EmailCodeFormData) {
-        const code = Object.values(data).join("").replace(",", "");
+        const code = Object.values(data).join("").replace(",", "").trim();
 
         await verifyCode(code);
     }
@@ -222,7 +222,7 @@ function useEmailCodeForm() {
     function onPaste(e: ClipboardEvent<HTMLInputElement>) {
         form.setFocus("character1");
 
-        const pasteText = e.clipboardData.getData("text");
+        const pasteText = e.clipboardData.getData("text").trim();
         const pasteTextLength = pasteText.length;
         const inputsLength = 6;
 

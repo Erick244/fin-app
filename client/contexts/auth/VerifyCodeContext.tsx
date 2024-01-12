@@ -1,10 +1,11 @@
 import { ToastAction } from "@/components/ui/toast";
 import { toast } from "@/components/ui/use-toast";
-import { getData } from "@/functions/api";
+import { getData, postData } from "@/functions/api";
 import { deleteClientCookie } from "@/functions/client-cookies";
 import { VERIFY_COOKIE_NAME } from "@/utils/constants";
 import { useRouter } from "next/navigation";
 import { createContext, useContext } from "react";
+import { useAuthContext } from "./AuthContext";
 
 interface VerifyCodeContextProps {
     verifyCode: (code: string) => Promise<void>;
@@ -21,18 +22,27 @@ export default function VerifyCodeContextProvider({
 }) {
     const router = useRouter();
 
+    const { signUpUser, login } = useAuthContext();
+
     async function verifyCode(code: string) {
         try {
-            await getData(`/auth/verifyCode/${code}`);
+            await postData(`/auth/verifyCode/${code}`, null);
+
+            if (signUpUser) {
+                await login({
+                    email: signUpUser.email,
+                    password: signUpUser.password,
+                });
+            }
 
             deleteClientCookie(VERIFY_COOKIE_NAME);
-            router.push("/auth/login");
+
+            router.push("/dashboard");
             router.refresh();
 
             toast({
                 title: "Success",
-                description:
-                    "Account created successfully. To complete your registration, log in.",
+                description: "Account created successfully.",
             });
         } catch (e: any) {
             toast({

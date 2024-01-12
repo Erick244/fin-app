@@ -15,7 +15,7 @@ export async function RevenueDataTable(searchParams: SearchParams) {
     return (
         <table className="w-full table-fixed border-collapse border-2 border-border">
             <Thead />
-            <TBody data={data} />
+            <TBody data={data} query={searchParams.query} />
         </table>
     );
 }

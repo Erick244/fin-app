@@ -1,12 +1,16 @@
+import { Button, ButtonProps } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { cn } from "@/lib/utils";
 import { Plus } from "lucide-react";
 import { CreateRevenueForm } from "../forms/CreateRevenueForm";
 
-export function AddRevenue() {
+export function AddRevenue(props: ButtonProps) {
     return (
         <Dialog>
-            <DialogTrigger className="flex-shrink-0 group bg-foreground text-background py-2.5 px-4 rounded">
-                <Plus className="transition-all duration-150 group-hover:rotate-90" />
+            <DialogTrigger asChild>
+                <Button {...props} className={cn("group", props.className)}>
+                    <Plus className="group-hover:rotate-180 transition-all duration-300" />
+                </Button>
             </DialogTrigger>
             <DialogContent>
                 <div className="space-y-7">

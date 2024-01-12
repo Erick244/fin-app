@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import com.finapp.app.configs.SecurityConfig;
+import com.finapp.app.configs.security.SecurityConfig;
 
 public class SecurityConfigUnitTest {
 
