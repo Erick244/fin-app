@@ -1,6 +1,6 @@
 "use client";
 
-import { Pagination } from "@/components/templates/pagination";
+import { PaginationItem, PaginationLink } from "@/components/ui/pagination";
 import { useDashboardParams } from "@/hooks/useDashboardParams";
 
 interface PageNumberProps {
@@ -13,10 +13,13 @@ export function PageNumber({ currentPage, page }: PageNumberProps) {
     const isCurrentPage = currentPage === page;
 
     return (
-        <Pagination.PageNumber
-            href={createParamURL("page", page.toString())}
-            pageIndex={page}
-            current={isCurrentPage}
-        />
+        <PaginationItem>
+            <PaginationLink
+                isActive={isCurrentPage}
+                href={createParamURL("page", page.toString())}
+            >
+                {page}
+            </PaginationLink>
+        </PaginationItem>
     );
 }
