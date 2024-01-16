@@ -7,7 +7,7 @@ import com.finapp.app.models.entities.User;
 @Service
 public class CodeService {
 
-	private String code;
+	private String code = "";
 
 	private User userSave;
 
@@ -28,16 +28,13 @@ public class CodeService {
 	public String genCode() {
 		final int MAX_RANDOM_NUMBER = 9;
 
-		String finalCode = "";
-		while (finalCode.length() < DEFAULT_CODE_SIZE) {
+		while (code.length() < DEFAULT_CODE_SIZE) {
 			Integer randomNumber = (int) Math.floor(Math.random() * MAX_RANDOM_NUMBER);
 
-			finalCode += randomNumber.toString();
+			code += randomNumber.toString();
 		}
 
-		code = finalCode;
-
-		return finalCode;
+		return code;
 	}
 
 	public void clean() {

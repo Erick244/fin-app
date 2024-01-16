@@ -38,6 +38,10 @@ public class JwtService {
 		}
 	}
 
+	public void setSecret(String secret) {
+		this.secret = secret;
+	}
+
 	private Algorithm getAlgorithm() {
 		return Algorithm.HMAC256(secret);
 	}

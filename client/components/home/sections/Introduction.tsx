@@ -12,7 +12,7 @@ export function Introduction() {
             <div className="bg-foreground flex gap-3 flex-col justify-center items-center h-full w-full flex-grow rounded text-primary-foreground">
                 <h1 className="transition-all duration-300 text-center md:text-5xl text-3xl font-semibold p-4 rounded text-primary-foreground">
                     <span>MANAGE YOUR </span>
-                    <span className="transition-all duration-300 p-1 rounded font-bold text-primary bg-background">
+                    <span className="md:block lg:inline-block transition-all duration-300 p-1 rounded font-bold text-primary bg-background">
                         FINACES
                     </span>
                     <span> HERE!</span>
