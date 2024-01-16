@@ -19,7 +19,7 @@ export const FeedBackCard = forwardRef(
                 ref={ref}
                 {...rest}
                 className={cn(
-                    "shrink-0 sm:w-96 w-80 p-4 flex flex-col justify-center items-center gap-5 border-2 border-border rounded-lg bg-background text-foreground shadow shadow-black/30",
+                    "w-80  sm:w-96 p-4 flex flex-col justify-center items-center gap-5 border-2 border-border rounded-lg bg-background text-foreground shadow shadow-black/30",
                     rest.className
                 )}
             >
@@ -31,7 +31,7 @@ export const FeedBackCard = forwardRef(
                     <AvatarFallback>{avatarFallBack}</AvatarFallback>
                 </Avatar>
                 <h2 className="text-xl">{name}</h2>
-                <TypographyP className="p-3 rounded-tr-lg rounded-bl-lg border-t border-b border-foreground">
+                <TypographyP className="p-3 rounded-tr-lg rounded-bl-lg border-t border-b border-foreground text-center text-sm">
                     Lorem ipsum dolor sit amet consectetur, adipisicing elit.
                     Richard Lorem ipsum dolor sit amet consectetur, adipisicing
                     elit. A ea facilis, tenetur dolorem laboriosam maxime

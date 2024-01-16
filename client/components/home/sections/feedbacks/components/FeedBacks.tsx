@@ -1,5 +1,5 @@
 import { GettingStartedButton } from "../../../ui/GettingStartedButton";
-import { FeedBackSlider } from "../ui/FeedBackSlider";
+import { FeedBackCarousel } from "../ui/FeedBackCarousel";
 
 export function FeedBacks() {
     return (
@@ -8,7 +8,7 @@ export function FeedBacks() {
             className="flex flex-col items-center bg-foreground text-background p-5"
         >
             <h1 className="text-4xl text-center mb-6">FeedBacks</h1>
-            <FeedBackSlider />
+            <FeedBackCarousel />
             <GettingStartedButton
                 size={"lg"}
                 className="mt-6 bg-background text-foreground hover:bg-secondary shadow shadow-black/30"
