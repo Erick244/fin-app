@@ -12,6 +12,8 @@ export async function RevenuesTablePagination(searchParams: SearchParams) {
     const { currentPage, nextPage, pagesCountArray, previousPage, havePages } =
         await getRevenuesTablePagination({ ...searchParams });
 
+    const enablePagination = nextPage > 0 || previousPage > 0;
+
     return (
         <Pagination
             className={cn(
@@ -19,18 +21,20 @@ export async function RevenuesTablePagination(searchParams: SearchParams) {
                 havePages ? "visible" : "invisible"
             )}
         >
-            <PaginationContent>
-                <PageSwitch direction="previus" newPage={previousPage} />
-                {havePages &&
-                    pagesCountArray.map((page) => (
-                        <PageNumber
-                            currentPage={currentPage}
-                            page={page}
-                            key={page}
-                        />
-                    ))}
-                <PageSwitch direction="next" newPage={nextPage} />
-            </PaginationContent>
+            {enablePagination && (
+                <PaginationContent>
+                    <PageSwitch direction="previus" newPage={previousPage} />
+                    {havePages &&
+                        pagesCountArray.map((page) => (
+                            <PageNumber
+                                currentPage={currentPage}
+                                page={page}
+                                key={page}
+                            />
+                        ))}
+                    <PageSwitch direction="next" newPage={nextPage} />
+                </PaginationContent>
+            )}
         </Pagination>
     );
 }

@@ -1,7 +1,7 @@
 import { getData } from "@/functions/api";
 import {
-    extractSimpleDateFromIsoDate,
-    transformQueryIfTargetIsAmount,
+	extractSimpleDateFromIsoDate,
+	transformQueryIfTargetIsAmount,
 } from "@/functions/data";
 import { SearchParams, TableOrderParam, TargetParam } from "@/models/PageProps";
 import { Revenue } from "@/models/Revenue";
@@ -19,8 +19,6 @@ export async function RevenueDataTable(searchParams: SearchParams) {
         </table>
     );
 }
-
-//TODO: Move this logic to backend
 
 async function getRevenueDataTable({
     page = "0",
