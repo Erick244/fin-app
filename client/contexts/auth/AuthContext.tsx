@@ -7,6 +7,8 @@ import {
     getClientCookie,
     setClientCookie,
 } from "@/functions/client-cookies";
+import { checkForErrorInResponseData } from "@/functions/data";
+import { DefaultException } from "@/models/DefaultException";
 import { User } from "@/models/User";
 import { UserAndToken } from "@/models/UserAndToken";
 import { SignInFormData } from "@/schemas/SignIn.schema";
@@ -40,7 +42,10 @@ export default function AuthContextProvider({
 
     async function retrieveUserByToken() {
         try {
-            const user = await getData<User>(`/auth/userByToken/${authToken}`);
+            const data = await getData(`/auth/userByToken/${authToken}`);
+
+            const user = checkForErrorInResponseData<User>(data);
+
             setUser(user);
         } catch (e: any) {
             toast({
@@ -58,16 +63,17 @@ export default function AuthContextProvider({
         if (authToken) {
             retrieveUserByToken();
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    async function login(data: SignInFormData) {
+    async function login(signInFormData: SignInFormData) {
         try {
             setSignUpUser(null);
 
-            const { jwtToken, user } = await postData<UserAndToken>(
-                "/auth/login",
-                data
-            );
+            const data = await postData("/auth/login", signInFormData);
+
+            const { jwtToken, user } =
+                checkForErrorInResponseData<UserAndToken>(data);
 
             setClientCookie(AUTH_TOKEN_NAME, jwtToken);
             setUser(user);
@@ -82,11 +88,16 @@ export default function AuthContextProvider({
         }
     }
 
-    async function signUp(data: SignUpFormData) {
+    async function signUp(signUpFormData: SignUpFormData) {
         try {
-            setSignUpUser(data);
+            setSignUpUser(signUpFormData);
 
-            await postData("/auth/signup", data);
+            const data = await postData<DefaultException | null>(
+                "/auth/signup",
+                signUpFormData
+            );
+
+            checkForErrorInResponseData(data);
 
             setClientCookie(VERIFY_COOKIE_NAME, true);
             router.push("/auth/verify");

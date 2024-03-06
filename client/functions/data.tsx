@@ -1,3 +1,4 @@
+import { DefaultException } from "@/models/DefaultException";
 import { TargetParam } from "@/models/PageProps";
 import { SpendingChartData } from "@/models/SpendingChartData";
 import { format } from "date-fns";
@@ -51,4 +52,14 @@ export function transformQueryIfTargetIsAmount(
     return target === TargetParam.amount
         ? transformQueryToNumberCentsValue(query)
         : query;
+}
+
+export function checkForErrorInResponseData<R>(data: any): R {
+    const errorData = data as DefaultException;
+
+    if (errorData?.errorMessage) {
+        throw new Error(errorData.errorMessage);
+    } else {
+        return data;
+    }
 }

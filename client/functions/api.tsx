@@ -1,7 +1,7 @@
 "use server";
 
 import axios from "@/lib/axios";
-import { AxiosError, AxiosRequestConfig } from "axios";
+import { AxiosRequestConfig } from "axios";
 
 export async function postData<R>(
     url: string,
@@ -9,19 +9,12 @@ export async function postData<R>(
     config?: AxiosRequestConfig
 ): Promise<R> {
     try {
-        const req = await axios.post(url, body, config);
-        const data = await req.data;
-
+        const resp = await axios.post(url, body, config);
+        const data = await resp.data;
         return data;
     } catch (e: any) {
-        throw getAxiosEsxceptionMessage(e);
+        return e;
     }
-}
-
-function getAxiosEsxceptionMessage(e: any) {
-    const error = e as AxiosError;
-
-    return error.response?.data ?? "";
 }
 
 export async function getData<R>(
@@ -29,12 +22,12 @@ export async function getData<R>(
     config?: AxiosRequestConfig
 ): Promise<R> {
     try {
-        const req = await axios.get(url, config);
-        const data = await req.data;
+        const resp = await axios.get(url, config);
+        const data = await resp.data;
 
         return data;
     } catch (e: any) {
-        throw getAxiosEsxceptionMessage(e);
+        return e;
     }
 }
 
@@ -44,12 +37,12 @@ export async function patchData<R>(
     config?: AxiosRequestConfig
 ): Promise<R> {
     try {
-        const req = await axios.patch(url, body, config);
-        const data = await req.data;
+        const resp = await axios.patch(url, body, config);
+        const data = await resp.data;
 
         return data;
     } catch (e: any) {
-        throw getAxiosEsxceptionMessage(e);
+        return e;
     }
 }
 
@@ -58,11 +51,11 @@ export async function deleteData<R>(
     config?: AxiosRequestConfig
 ): Promise<R> {
     try {
-        const req = await axios.delete(url, config);
-        const data = await req.data;
+        const resp = await axios.delete(url, config);
+        const data = await resp.data;
 
         return data;
     } catch (e: any) {
-        throw getAxiosEsxceptionMessage(e);
+        return e;
     }
 }

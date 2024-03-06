@@ -2,6 +2,8 @@ import { ToastAction } from "@/components/ui/toast";
 import { toast } from "@/components/ui/use-toast";
 import { getData, postData } from "@/functions/api";
 import { deleteClientCookie } from "@/functions/client-cookies";
+import { checkForErrorInResponseData } from "@/functions/data";
+import { DefaultException } from "@/models/DefaultException";
 import { VERIFY_COOKIE_NAME } from "@/utils/constants";
 import { useRouter } from "next/navigation";
 import { createContext, useContext } from "react";
@@ -26,7 +28,12 @@ export default function VerifyCodeContextProvider({
 
     async function verifyCode(code: string) {
         try {
-            await postData(`/auth/verifyCode/${code}`, null);
+            const data = await postData<DefaultException | null>(
+                `/auth/verifyCode/${code}`,
+                null
+            );
+
+            checkForErrorInResponseData(data);
 
             if (signUpUser) {
                 await login({
@@ -54,11 +61,13 @@ export default function VerifyCodeContextProvider({
 
     async function resendEmail() {
         try {
-            const data = await getData<string>("/auth/resendEmail");
+            const data = await getData("/auth/resendEmail");
+
+            const successMessage = checkForErrorInResponseData<string>(data);
 
             toast({
                 title: "Success",
-                description: data,
+                description: successMessage,
             });
         } catch (e: any) {
             toast({

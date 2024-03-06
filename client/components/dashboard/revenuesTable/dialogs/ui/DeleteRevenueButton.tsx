@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";
 import { deleteData } from "@/functions/api";
+import { checkForErrorInResponseData } from "@/functions/data";
 import { Trash } from "lucide-react";
 import { useRouter } from "next/navigation";
 
@@ -30,7 +31,9 @@ function useDeleteRevenue(revenueId: number) {
 
     async function deleteRevenue() {
         try {
-            await deleteData(`/revenues/delete/${revenueId}`);
+            const data = await deleteData(`/revenues/delete/${revenueId}`);
+
+            checkForErrorInResponseData(data);
 
             router.refresh();
             toast({

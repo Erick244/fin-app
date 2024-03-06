@@ -23,6 +23,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/components/ui/use-toast";
 import { patchData } from "@/functions/api";
 import {
+    checkForErrorInResponseData,
     extractFormatedDateFromIsoDate,
     extractSimpleDateFromIsoDate,
 } from "@/functions/data";
@@ -190,10 +191,15 @@ function useEditRevenueForm(revenue: Revenue) {
 
     const router = useRouter();
 
-    async function onSubmit(data: EditRevenueData) {
+    async function onSubmit(editRevenueData: EditRevenueData) {
         try {
             const revenueId = revenue.id;
-            await patchData(`/revenues/edit/${revenueId}`, data);
+            const data = await patchData(
+                `/revenues/edit/${revenueId}`,
+                editRevenueData
+            );
+
+            checkForErrorInResponseData(data);
 
             router.refresh();
             toast({

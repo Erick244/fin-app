@@ -22,7 +22,9 @@ import { Spinner } from "@/components/ui/spinner";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/components/ui/use-toast";
 import { postData } from "@/functions/api";
+import { checkForErrorInResponseData } from "@/functions/data";
 import { cn } from "@/lib/utils";
+import { DefaultException } from "@/models/DefaultException";
 import {
     CreateRevenueData,
     createRevenueFormSchema,
@@ -180,9 +182,14 @@ function useCreateRevenueForm() {
 
     const router = useRouter();
 
-    async function onSubmit(data: CreateRevenueData) {
+    async function onSubmit(createRevenueData: CreateRevenueData) {
         try {
-            await postData("/revenues", data);
+            const data = await postData<DefaultException | null>(
+                "/revenues",
+                createRevenueData
+            );
+
+            checkForErrorInResponseData(data);
 
             router.refresh();
             toast({
