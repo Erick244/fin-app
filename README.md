@@ -1,6 +1,6 @@
 # FinApp
 
-It consists of an application for managing personal finances.
+It's a personal finance management app developed with Spring Boot and Next 14.
 
 > 🔴 Preview: https://finapp-project.vercel.app
 
