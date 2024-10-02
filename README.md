@@ -1,9 +1,24 @@
-# FinApp
+# Crypto File
+A financial management website where you can track your expenses and achieve better future results. 📈
 
-It's a personal finance management app developed with Spring Boot and Next 14.
+> 🔴 Live: https://finapp-project.vercel.app
 
-> 🔴 Preview: https://finapp-project.vercel.app
+## Technologies
+  * **Frontend**
+    * NextJS
+    * TailwindCSS
+    * Shadcn/ui
+    * Jotai
+  * **Backend**
+    * Java
+    * Spring Boot
+    * Spring Security
+    * Spring Data
+  * **Tests**
+    * JUnit
 
-<div style="display: flex;justify-content: center;">
-<img src="https://erick-henrique.vercel.app/_next/image?url=https%3A%2F%2Fcdn.discordapp.com%2Fattachments%2F905481123172339722%2F1213173267158933575%2Ffinapp-thumb.png%3Fex%3D65f482a6%26is%3D65e20da6%26hm%3D90708990737aec112e34fe4400e276e0bf3725c70f1a620239f24ba1564ce17a%26&w=640&q=75" width="440" height="260" style="border-radius: 15px;">
-</div>
+### Contact
+
+Send me a message or maybe a proposal! 👋
+
+**📧 Email**: `erickcontato012@gmail.com`
