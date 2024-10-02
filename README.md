@@ -1,4 +1,4 @@
-# Crypto File
+# FinApp
 A financial management website where you can track your expenses and achieve better future results. 📈
 
 > 🔴 Live: https://finapp-project.vercel.app
